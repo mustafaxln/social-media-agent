@@ -2,28 +2,32 @@
 
 > **Başlangıç:**  
 > **Hedef bitiş:**  
-> **Durum:** Faz 2 — devam ediyor
+> **Durum:** Faz 3 tamamlandı — Faz 4 bekliyor
 
 Bu dosya projenin ana planıdır. Her faz tamamlandıkça `[x]` işaretlenir.
 
-Proje dokümantasyonu → [`docs/`](./docs/)  
-Yaptıkça yazdığımız notlar → [`docs/calisma-notlari/`](./docs/calisma-notlari/)
+Proje dokümantasyonu → `[docs/](./docs/)`  
+Yaptıkça yazdığımız notlar → `[docs/calisma-notlari/](./docs/calisma-notlari/)`
 
 ---
 
 ## Timeline Özeti
 
-| Faz | Konu | Başlangıç | Bitiş | Süre |
-|-----|------|-----------|-------|------|
-| 0 | Proje ön dokümantasyonu | 30 Haz 2026 | 30 Haz 2026 | 1 gün |
-| 1 | Docker + local n8n kurulumu | 30 Haz 2026 | 30 Haz 2026 | 1 gün |
-| 2 | Workflow 1 — Manuel içerik üretme | | | |
-| 3 | Data Table + Telegram bildirimi | | | |
-| 4 | Workflow 2 — Kaynaktan içerik üretme | | | |
-| 5 | Error handling + retry / fallback | | | |
-| 6 | Final dokümantasyon | | | |
+
+| Faz | Konu                                 | Başlangıç   | Bitiş       | Süre  |
+| --- | ------------------------------------ | ----------- | ----------- | ----- |
+| 0   | Proje ön dokümantasyonu              | 30 Haz 2026 | 30 Haz 2026 | 1 gün |
+| 1   | Docker + local n8n kurulumu          | 30 Haz 2026 | 30 Haz 2026 | 1 gün |
+| 2   | Workflow 1 — Manuel içerik üretme    |             |             |       |
+| 3   | Data Table + Telegram bildirimi      |             |             |       |
+| 4   | Workflow 2 — Kaynaktan içerik üretme |             |             |       |
+| 5   | Error handling + retry / fallback    |             |             |       |
+| 6   | Final dokümantasyon                  |             |             |       |
+
 
 ---
+
+
 
 ## Faz 0 — Proje Ön Dokümantasyonu
 
@@ -38,12 +42,16 @@ Yaptıkça yazdığımız notlar → [`docs/calisma-notlari/`](./docs/calisma-no
 - [x] Genel akış şeması (Mermaid)
 - [x] Faz bazlı proje planı → bu dosya
 
+
+
 ### Çıktılar
 
 - `docs/` altındaki dokümantasyon dosyaları
 - `proje-plani.md`
 
 ---
+
+
 
 ## Faz 1 — Docker + Local n8n Kurulumu
 
@@ -54,9 +62,11 @@ Yaptıkça yazdığımız notlar → [`docs/calisma-notlari/`](./docs/calisma-no
 ### Yapılacaklar
 
 - [x] `docker compose up -d` ile n8n'i ayağa kaldır
-- [x] http://localhost:5678 üzerinden arayüze erişimi doğrula
+- [x] [http://localhost:5678](http://localhost:5678) üzerinden arayüze erişimi doğrula
 - [x] `.env` dosyasında n8n şifresini ayarla
 - [x] Kurulum notlarını dokümante et → `docs/calisma-notlari/n8n-kurulum.md`
+
+
 
 ### Çıktılar
 
@@ -64,6 +74,8 @@ Yaptıkça yazdığımız notlar → [`docs/calisma-notlari/`](./docs/calisma-no
 - `docs/calisma-notlari/n8n-kurulum.md`
 
 ---
+
+
 
 ## Faz 2 — Workflow 1: Manuel İçerik Üretme
 
@@ -74,17 +86,21 @@ Yaptıkça yazdığımız notlar → [`docs/calisma-notlari/`](./docs/calisma-no
 ### Yapılacaklar
 
 - [x] Platform seçimi kesinleştir → **LinkedIn** ve **Instagram**
-- [ ] İçerik türlerini belirle
-- [ ] AI prompt tasarımı
-- [ ] n8n workflow kur: Manual Trigger → Set Node → AI Agent → Structured Output
-- [ ] Workflow test et (örnek konu ile)
-- [ ] Workflow JSON export al
+- [x] İçerik türlerini belirle → eğitici, duyuru, ürün tanıtımı, problem/çözüm
+- [x] AI prompt tasarımı → `prompts/manuel-icerik-prompt.md`
+- [x] n8n workflow kur: Manual Trigger → Set Node → AI Agent → Structured Output
+- [x] Workflow test et (örnek konu ile)
+- [x] Workflow JSON export al → `WF-01 Manuel İçerik Üretme.json`
+
+
 
 ### Akış
 
 ```
 Manual Trigger → Set Node → AI Agent → Structured Output
 ```
+
+
 
 ### Çıktılar
 
@@ -94,6 +110,8 @@ Manual Trigger → Set Node → AI Agent → Structured Output
 
 ---
 
+
+
 ## Faz 3 — Data Table + Telegram Bildirimi
 
 **Başlangıç:**  
@@ -102,19 +120,24 @@ Manual Trigger → Set Node → AI Agent → Structured Output
 
 ### Yapılacaklar
 
-- [ ] `social_media_contents` Data Table oluştur
-- [ ] Status alanlarını tanımla (draft, waiting_approval, approved, rejected, scheduled, published, failed)
-- [ ] Workflow 1'e Data Table kayıt node'u ekle
-- [ ] Telegram bot oluştur ve kanala bağla
-- [ ] Taslak bildirim mesaj şablonu hazırla
-- [ ] Onay süreci — ilk aşama: manuel Telegram kontrolü
-- [ ] End-to-end test: konu gir → içerik üret → kaydet → Telegram'a gönder
+- [x] `social_media_contents` Data Table oluştur
+- [x] Status alanlarını tanımla (draft, waiting_approval, approved, rejected, scheduled, published, failed)
+- [x] Workflow 1'e Data Table kayıt node'u ekle
+- [x] Telegram bot oluştur ve kanala/gruba bağla
+- [x] Taslak bildirim mesaj şablonu hazırla → Code node + `templates/telegram/taslak-mesaj.md`
+- [x] Telegram test mesajı gönderildi
+- [x] Onay süreci — ilk aşama: manuel Telegram kontrolü
+- [x] End-to-end test: konu gir → içerik üret → kaydet → Telegram'a gönder
+
+
 
 ### Akış (Workflow 1 genişletilmiş)
 
 ```
-Manual Trigger → Set Node → AI Agent → Structured Output → Data Table → Telegram
+Manual Trigger → Set → AI Agent → Code → Data Table → Telegram
 ```
+
+
 
 ### Çıktılar
 
@@ -123,6 +146,8 @@ Manual Trigger → Set Node → AI Agent → Structured Output → Data Table �
 - Ekran görüntüleri
 
 ---
+
+
 
 ## Faz 4 — Workflow 2: Kaynaktan İçerik Üretme
 
@@ -141,11 +166,15 @@ Manual Trigger → Set Node → AI Agent → Structured Output → Data Table �
 - [ ] Data Table kaydı + Telegram bildirimi
 - [ ] Workflow test et
 
+
+
 ### Akış
 
 ```
 Schedule Trigger → RSS/HTTP → Veri Temizleme → Duplicate Kontrolü → AI Agent → Data Table → Telegram
 ```
+
+
 
 ### Çıktılar
 
@@ -154,6 +183,8 @@ Schedule Trigger → RSS/HTTP → Veri Temizleme → Duplicate Kontrolü → AI 
 - Duplicate kontrol mekanizması
 
 ---
+
+
 
 ## Faz 5 — Error Handling + Retry / Fallback
 
@@ -171,6 +202,8 @@ Schedule Trigger → RSS/HTTP → Veri Temizleme → Duplicate Kontrolü → AI 
 - [ ] Fallback senaryoları: yedek kaynak, basit template, telegram_failed status
 - [ ] Tüm workflow'lara error workflow bağla
 
+
+
 ### Çıktılar
 
 - Error handling workflow
@@ -178,6 +211,8 @@ Schedule Trigger → RSS/HTTP → Veri Temizleme → Duplicate Kontrolü → AI 
 - Retry / fallback dokümantasyonu
 
 ---
+
+
 
 ## Faz 6 — Final Dokümantasyon
 
@@ -192,36 +227,45 @@ Schedule Trigger → RSS/HTTP → Veri Temizleme → Duplicate Kontrolü → AI 
 - [ ] Öğrenilen kavramlar listesini güncelle
 - [ ] Ekran görüntülerini toparla
 
+
+
 ### Beklenen Final Çıktılar
 
 - [x] Docker ile local çalışan n8n
-- [ ] Manuel içerik üretim workflow'u
+- [x] Manuel içerik üretim workflow'u
 - [ ] Kaynaktan içerik üretim workflow'u
 - [ ] Error handling workflow'u
 - [ ] Data Table yapıları
-- [ ] Telegram bildirim sistemi
-- [ ] En az 2 platform için içerik üretimi
+- [x] Telegram bildirim sistemi
+- [x] En az 2 platform için içerik üretimi
 - [ ] Duplicate kontrolü
 - [ ] Retry / fallback senaryosu
 - [ ] Proje dokümantasyonu + akış şeması
 
 ---
 
+
+
 ## İlerleme Takibi
 
-| Faz | Durum | Tamamlanma |
-|-----|-------|------------|
-| 0 — Ön dokümantasyon | Tamamlandı | |
-| 1 — n8n kurulumu | Tamamlandı | |
-| 2 — Workflow 1 | Devam ediyor | |
-| 3 — Data Table + Telegram | Bekliyor | |
-| 4 — Workflow 2 | Bekliyor | |
-| 5 — Error handling | Bekliyor | |
-| 6 — Final dokümantasyon | Bekliyor | |
+
+| Faz                       | Durum        | Tamamlanma |
+| ------------------------- | ------------ | ---------- |
+| 0 — Ön dokümantasyon      | Tamamlandı   |            |
+| 1 — n8n kurulumu          | Tamamlandı   |            |
+| 2 — Workflow 1            | Tamamlandı   |            |
+| 3 — Data Table + Telegram | Tamamlandı |            |
+| 4 — Workflow 2            | Bekliyor     |            |
+| 5 — Error handling        | Bekliyor     |            |
+| 6 — Final dokümantasyon   | Bekliyor     |            |
+
 
 ---
+
+
 
 ## Notlar
 
 - **Platform seçimi:** LinkedIn ve Instagram
-- Brand voice, içerik takvimi, multi-agent vb. özellikler ilk versiyon sonrasında eklenebilir → [`docs/proje-amaci.md`](./docs/proje-amaci.md#sonradan-eklenebilecek-özellikler)
+- Brand voice, içerik takvimi, multi-agent vb. özellikler ilk versiyon sonrasında eklenebilir → `[docs/proje-amaci.md](./docs/proje-amaci.md#sonradan-eklenebilecek-özellikler)`
+

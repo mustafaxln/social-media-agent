@@ -1,0 +1,394 @@
+{
+  "name": "WF-01 Manuel İçerik Üretme",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "07ec950a-4438-4774-a536-63ebd8e51d74",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5d7bb647-59f4-4274-9759-1ba2679c7ebb",
+              "name": "topic",
+              "value": "E-ticarette yapay zeka kullanımı",
+              "type": "string"
+            },
+            {
+              "id": "c8ef48fb-a997-4c9d-b9b2-dda3202414f6",
+              "name": "platform",
+              "value": "Instagram",
+              "type": "string"
+            },
+            {
+              "id": "7d1b85a0-0654-4fa0-a100-0a8c789358cb",
+              "name": "target_audience",
+              "value": "E-ticaret markaları",
+              "type": "string"
+            },
+            {
+              "id": "1a6b5fd0-e8ac-4262-bbd1-015cdb76e8c1",
+              "name": "tone",
+              "value": "Profesyonel ve öğretici",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "dc6e25a5-93fb-4bfe-8dbb-8a64c952f95d",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Konu: {{ $json.topic }}\nPlatform: {{ $json.platform }}\nHedef kitle: {{ $json.target_audience }}\nTon: {{ $json.tone }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "Sen bir sosyal medya içerik stratejisti gibi çalışıyorsun.\n\nGörevin: Verilen konuya göre hedef platform için sosyal medya içeriği üretmek.\n\nKURALLAR:\n1. İçerik hedef kitleye uygun olmalı.\n2. Platform diline uygun yazılmalı:\n   - LinkedIn → profesyonel, uzun form, iş dünyası dili\n   - Instagram → kısa, akıcı, görsel odaklı, samimi ama profesyonel\n3. Gereksiz uzun olmamalı. Satış odaklı değil, değer odaklı olmalı.\n4. Hashtag: En az 4, en fazla 8 adet. Her hashtag mutlaka # ile başlamalı (örnek: #eticaret, #yapayzeka). # olmayan hashtag yazma.\n5. CTA (call to action) mutlaka ekle.\n6. Görsel fikri (visual_idea) mutlaka ekle.\n7. impact_score: 1 ile 5 arasında tam sayı (1=düşük etki, 5=çok yüksek). Asla yüzde veya 100 gibi değer verme.\n8. Yanıtın SADECE geçerli JSON olsun. JSON dışında açıklama, markdown veya ek metin yazma.\n\nİÇERİK KATEGORİSİ — category alanında yalnızca şunlardan birini kullan:\n- Eğitici içerik\n- Duyuru\n- Ürün tanıtımı\n- Problem / çözüm"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "d9681e27-39b3-4ab4-a6a0-ebee3c30e51c",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        416,
+        192
+      ],
+      "id": "edc775ff-df18-488d-b5f5-ee34d267b43f",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "pnMw55DJbPCItXTh",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"title\": \"string — dikkat çekici başlık\",\n  \"platform\": \"string — LinkedIn veya Instagram\",\n  \"category\": \"string — Eğitici içerik | Duyuru | Ürün tanıtımı | Problem / çözüm\",\n  \"target_audience\": \"string — hedef kitle\",\n  \"content\": \"string — platforma uygun içerik metni\",\n  \"hashtags\": [\"#ornek1\", \"#ornek2\", \"#ornek3\", \"#ornek4\"],\n  \"visual_idea\": \"string — görsel / tasarım fikri\",\n  \"cta\": \"string — harekete geçirici soru veya çağrı\",\n  \"tone\": \"string — içerik tonu\",\n  \"impact_score\": 4\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        560,
+        192
+      ],
+      "id": "2b45dd2a-ef50-439c-bbc1-4c7c82949285",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "chatId": "-1004488708928",
+        "text": "={{ $('Telegram Mesajı Oluştur').item.json.telegram_message }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1168,
+        0
+      ],
+      "id": "ed1627df-3e8f-474a-964f-f609466b2cde",
+      "name": "Send a text message",
+      "webhookId": "77ff680b-440e-4994-838e-79c714f7b594",
+      "credentials": {
+        "telegramApi": {
+          "id": "LHt46cuR23BuvjVH",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\nconst d = item.output || item;\n\nconst hashtags = Array.isArray(d.hashtags)\n  ? d.hashtags.join(' ')\n  : String(d.hashtags || '');\n\nconst message = `Yeni Sosyal Medya Icerik Taslagi\n\nPlatform: ${d.platform || ''}\nKategori: ${d.category || ''}\nHedef Kitle: ${d.target_audience || ''}\nEtki Skoru: ${d.impact_score || ''}/5\n\nBaslik:\n${d.title || ''}\n\nIcerik:\n${d.content || ''}\n\nHashtagler:\n${hashtags}\n\nGorsel Fikri:\n${d.visual_idea || ''}\n\nCTA:\n${d.cta || ''}\n\nDurum: Onay bekliyor`;\n\nreturn [{ json: { ...d, telegram_message: message } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        736,
+        0
+      ],
+      "id": "3e64b893-758e-4526-89de-e667900264f9",
+      "name": "Telegram Mesajı Oluştur"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "6aT7H8YRsGUlIaWa",
+          "mode": "list",
+          "cachedResultName": "social_media_contents",
+          "cachedResultUrl": "/projects/dTrHtXVql3QtKgyf/datatables/6aT7H8YRsGUlIaWa"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "impact_score": "={{ $json.impact_score }}",
+            "title": "={{ $json.title }}",
+            "content": "={{ $json.content }}",
+            "platform": "={{ $json.platform }}",
+            "category": "={{ $json.category }}",
+            "target_audience": "={{ $json.target_audience }}",
+            "hashtags": "={{ $json.hashtags.join(' ') }}",
+            "visual_idea": "={{ $json.visual_idea }}",
+            "cta": "={{ $json.cta }}",
+            "tone": "={{ $json.tone }}",
+            "status": "waiting_approval"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "content",
+              "displayName": "content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "platform",
+              "displayName": "platform",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "category",
+              "displayName": "category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "target_audience",
+              "displayName": "target_audience",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "hashtags",
+              "displayName": "hashtags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "visual_idea",
+              "displayName": "visual_idea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "cta",
+              "displayName": "cta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "tone",
+              "displayName": "tone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "impact_score",
+              "displayName": "impact_score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        944,
+        0
+      ],
+      "id": "7bde6364-8d88-415b-afb9-14d4559d6a18",
+      "name": "Insert row"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Telegram Mesajı Oluştur",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Mesajı Oluştur": {
+      "main": [
+        [
+          {
+            "node": "Insert row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert row": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "f2085ac9-f0ea-48cb-97db-bf8339551496",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5387abe0532c44e66001f3e780de83667825ca1428bc9bf3beffe6a8a965a742"
+  },
+  "nodeGroups": [],
+  "id": "T9ZUTUh9Fs5wZpZS",
+  "tags": []
+}
