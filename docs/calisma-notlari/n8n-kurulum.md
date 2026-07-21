@@ -38,3 +38,13 @@ docker compose up -d
 ## Doğrulama
 
 Container ayağa kalktıktan sonra tarayıcıdan arayüze girildi; Faz 1 tamamlandı.
+
+## Telegram Trigger (WEBHOOK_URL)
+
+Local n8n'de Telegram Trigger için HTTPS gerekir:
+
+1. Tünel: `cloudflared tunnel --url http://localhost:5678`
+2. `.env` içine: `WEBHOOK_URL=https://xxxx.trycloudflare.com/`
+3. `docker compose up -d` (yeniden)
+
+Tünel URL değişirse `.env` güncelleyip n8n'i yeniden başlat.

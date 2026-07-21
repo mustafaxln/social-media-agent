@@ -9,9 +9,16 @@
 - [ ] Telegram bot + grup çalışıyor (mevcut WF-01/02)
 - [ ] WF-03 Error Handling Active (opsiyonel ama iyi)
 
-## Adımlar
+## Checkpoint 2 — durum
 
-### A1 — Telegram mesajına buton (önce WF-02 veya test WF)
+**Durum:** Tamamlandı (test OK — approved / rejected)  
+**Hedef:** Onayla → `approved` | Reddet → `rejected` (görsel/yayın henüz yok)
+
+### Not — Telegram Trigger + local n8n
+
+Active için HTTPS `WEBHOOK_URL` gerekir (cloudflared/ngrok).  
+`docker-compose.yml` + `.env` → `WEBHOOK_URL` ayarlı.
+
 
 Telegram node'da **Reply Markup** / **Inline Keyboard**:
 

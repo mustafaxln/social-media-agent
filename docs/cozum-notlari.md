@@ -18,6 +18,7 @@ Problem listesi → [`karsilasilan-problemler.md`](./karsilasilan-problemler.md)
 | 12 | Error alanları boş | Set yerine **Code** (`Hata Mesaji`): `execution.lastNodeExecuted`, `execution.error.message` | Nested path'ler Code'da güvenli |
 | 13 | Referenced node doesn't exist | `$('...')` birebir node adı; veya Code ile `telegram_message` üret | Node adını yeniden adlandırarak da çözülür |
 | 14 | Kod Telegram'a gidiyor | JS sadece Code node'a; Telegram'a yalnızca `telegram_message` expression | Text ≠ JavaScript |
+| 15 | Telegram Trigger HTTPS | `cloudflared tunnel --url http://localhost:5678` + `.env` `WEBHOOK_URL` + `docker compose up -d` | Tünel URL değişince env + restart |
 
 ## Tekrar kullanılacak kalıplar
 
@@ -31,4 +32,8 @@ RSS → Veri Temizle → If row doesn't exist → Limit(1) → AI → ...
 
 ```
 Error Trigger → Code (parse) → Insert errors → Telegram HATA
+```
+
+```
+Telegram buton → WF-04 Trigger (callback) → Update status approved/rejected
 ```

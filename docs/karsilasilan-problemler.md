@@ -18,7 +18,8 @@ Proje boyunca takıldığımız noktalar. Çözümler → [`cozum-notlari.md`](.
 | 12 | Tem 2026 | 5 | Set node ile nested Error Trigger alanları (`node`, `error.message`) boş | Telegram'da Node/Hata satırları boş |
 | 13 | Tem 2026 | 5 | Telegram Text'te `$('Hata Bilgileri')` → Referenced node doesn't exist | Expression node adı uyuşmuyor |
 | 14 | Tem 2026 | 5 | Code satırı yanlışlıkla Telegram Text'e yazılınca | Telegram'a literal `const source = ...` gidiyor |
+| 15 | Tem 2026 | A | Telegram Trigger Active: `bad webhook: An HTTPS URL must be provided` | WF-04 publish edilemiyor |
 
 ## Özet
 
-En çok takıldığımız konular: **n8n item taşıma** (Get Row / `.first()` / node adı), **Duplicate sırası**, **Error Trigger veri yapısı**.
+En çok takıldığımız konular: **n8n item taşıma**, **Duplicate sırası**, **Error Trigger**, **local Telegram webhook (HTTPS)**.
