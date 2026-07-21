@@ -1,16 +1,19 @@
 # Faz 2 — Workflow 1 Kurulum Notları
 
+**Durum:** Tamamlandı (Faz 3 ile Telegram + Data Table eklendi)
+
 ## Kararlar
 
 | Alan | Seçim |
 |------|-------|
-| Platformlar | LinkedIn, Instagram (her çalıştırmada elle seçilir) |
+| Platformlar | LinkedIn, Instagram (her çalıştırmada elle) |
 | İçerik türleri | Eğitici, Duyuru, Ürün tanıtımı, Problem/çözüm |
-| Hedef kitle | E-ticaret markaları / online satıcılar |
+| Hedef kitle | E-ticaret markaları |
 | Ton | Profesyonel ve öğretici |
-| AI | OpenAI (API key n8n credential olarak) |
+| AI | OpenAI `gpt-4o-mini` |
+| Prompt | `prompts/manuel-icerik-prompt.md` |
 
-## Set Node alanları
+## Set Node (örnek)
 
 ```json
 {
@@ -21,55 +24,24 @@
 }
 ```
 
-`platform` her çalıştırmada `LinkedIn` veya `Instagram` olarak değiştirilir.
-
-## n8n kurulum adımları
-
-1. n8n → **Credentials** → **OpenAI** ekle (API key)
-2. Yeni workflow oluştur: `WF-01 Manuel İçerik Üretme`
-3. Node'ları sırayla ekle:
-
-### 1. Manual Trigger
-
-### 2. Set Node
-
-Fields to Set → Manual Mapping:
-
-| Name | Value |
-|------|-------|
-| topic | `E-ticarette yapay zeka kullanımı` (test için; sonra değiştir) |
-| platform | `LinkedIn` |
-| target_audience | `E-ticaret markaları` |
-| tone | `Profesyonel ve öğretici` |
-
-### 3. AI Agent
-
-- Chat Model: **OpenAI Chat Model** (credential bağla)
-- System Message: `prompts/manuel-icerik-prompt.md` içeriğini kopyala
-- User Message:
+## Final akış (Faz 3 sonrası)
 
 ```
-Konu: {{ $json.topic }}
-Platform: {{ $json.platform }}
-Hedef kitle: {{ $json.target_audience }}
-Ton: {{ $json.tone }}
+Manual Trigger → Set → AI Agent → Code → Insert row → Telegram
 ```
 
-- **Require Specific Output Format** → açık
-- Output format: JSON schema veya Structured Output Parser kullan
+## AI Agent
 
-### 4. Structured Output Parser (AI Agent'a bağlı)
+- System / User / Structured Output → prompt dosyasındaki 3 bölüm
+- Memory: yok | Tool: yok
 
-Schema örneği — `prompts/manuel-icerik-prompt.md` altındaki JSON alanları.
+## Export
 
-## Test
+`WF-01 Manuel İçerik Üretme.json`
 
-1. Set Node'da konu ve platformu gir
-2. **Execute workflow** çalıştır
-3. Çıktıda title, content, hashtags, visual_idea, cta, impact_score gelmeli
+## Tamamlandı
 
-## Tamamlandığında
-
-- [x] Workflow test edildi (LinkedIn + Instagram)
-- [x] JSON export alındı → `WF-01 Manuel İçerik Üretme.json`
+- [x] LinkedIn + Instagram test
+- [x] Structured JSON çıktı
+- [x] Export
 - [x] Ekran görüntüsü → `docs/ekran-goruntuleri/`

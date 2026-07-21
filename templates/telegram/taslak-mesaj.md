@@ -3,12 +3,12 @@
 ## Workflow sırası
 
 ```
-AI Agent → Code (Mesajı Oluştur) → Data Table → Telegram
+AI Agent → Code → Data Table Insert → Telegram
 ```
 
-## Code node — "Telegram Mesajı Oluştur"
+Telegram Text her zaman **Code node** adından okunur (Insert sonrası `$json` mesajı taşımaz).
 
-Mode: **Run Once for All Items**
+## WF-01 Code (örnek)
 
 ```javascript
 const item = $input.first().json;
@@ -45,13 +45,22 @@ Durum: Onay bekliyor`;
 return [{ json: { ...d, telegram_message: message } }];
 ```
 
+## WF-02 farkı
+
+Kaynak satırı + `source_url` için Limit'ten oku:
+
+```javascript
+const source = $('Limit').first().json;
+// mesaja: Kaynak: ${source.source_name} — ${source.url}
+// return'a: source_url: source.url
+```
+
+Hashtag tire temizliği: `.replace(/-/g, '')`
+
 ## Telegram node
 
 | Alan | Değer |
-|------|-------|
+|------|--------|
 | Chat ID | Grup ID (eksi ile) |
-| Text | `{{ $('Code').item.json.telegram_message }}` |
-| Parse Mode | None |
-| Append n8n Attribution | Kapalı (isteğe bağlı) |
-
-Text alanında **Expression açma** — düz metin modunda `{{ $json.telegram_message }}` yeterli.
+| Text | `{{ $('telegram mesaj').item.json.telegram_message }}` (node adına göre) |
+| Append n8n Attribution | Kapalı |

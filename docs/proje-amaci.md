@@ -13,48 +13,54 @@ Sosyal medya içerik üretimi zaman alıcı ve tutarsız olabiliyor. Markalar ve
 
 ## Çözüm
 
-n8n tabanlı bir otomasyon sistemi kurarak:
+n8n tabanlı otomasyon:
 
-1. Manuel veya otomatik kaynaklardan içerik fikri al
-2. AI agent ile platforma uygun sosyal medya içeriği üret
-3. Data Table'a kaydet ve durum takibi yap
-4. Telegram üzerinden taslak gönder, onay sürecini başlat
+1. Manuel veya RSS kaynağından içerik fikri al
+2. AI agent ile LinkedIn / Instagram içeriği üret
+3. Data Table'a kaydet (`waiting_approval`)
+4. Telegram'a taslak gönder → insan onaylar
+5. Hata olursa WF-03 kaydeder ve bildirir
 
-## Somut Hedefler
+## Somut hedefler — durum
 
-- Manuel konu girişi ile en az 2 platform için (LinkedIn, Instagram) içerik üretmek
-- RSS kaynaklarından otomatik içerik çekip dönüştürmek
-- Üretilen içerikleri merkezi tabloda takip etmek
-- Telegram üzerinden taslak gönderip onay sürecini başlatmak
-- Hata durumlarında sistemin tamamen durmasını engellemek
+| Hedef | Durum |
+|-------|--------|
+| Manuel konu ile LinkedIn + Instagram içerik | ✅ WF-01 |
+| RSS'ten otomatik çekip dönüştürmek | ✅ WF-02 (Webrazzi) |
+| Merkezi tabloda takip | ✅ `social_media_contents` |
+| Telegram taslak + onay başlangıcı | ✅ Grup bildirimi |
+| Hata durumunda sistemin kayıpsız yakalaması | ✅ WF-03 + Retry |
 
-## Seçilen Platformlar
+## Seçilen platformlar
 
 **LinkedIn** ve **Instagram**
 
-| Platform | Durum |
-|----------|-------|
-| LinkedIn | Seçildi |
-| Instagram | Seçildi |
+| | WF-01 | WF-02 |
+|--|-------|-------|
+| Platform seçimi | Set node'da elle | AI içeriğe göre |
 
-## İlk Versiyon Kapsamı
+## Hedef kitle ve ton
 
-- Docker ile local n8n kurulumu
-- 3 workflow (manuel, kaynak, error handling)
-- n8n Data Table ile içerik ve log kaydı
-- Telegram taslak bildirimi
-- Manuel onay süreci (Telegram üzerinden kontrol)
-- Duplicate kontrolü (URL + title)
-- Retry ve fallback senaryoları
+- Hedef kitle: E-ticaret markaları / online satıcılar
+- Ton: Profesyonel ve öğretici
 
-## Sonradan Eklenebilecek Özellikler
+## İlk versiyon kapsamı
 
-İlk versiyon tamamlandıktan sonra eklenebilecek gelişmiş özellikler:
+- [x] Docker ile local n8n
+- [x] 3 workflow (manuel, kaynak, error)
+- [x] Data Table içerik + hata kaydı
+- [x] Telegram taslak + HATA
+- [x] Manuel onay (Telegram okuma)
+- [x] Duplicate (`source_url`)
+- [x] Retry On Fail
+- [x] Schedule Trigger (WF-02)
+- [ ] execution_logs insert *(PM sonrası)*
+- [ ] Ağır fallback *(PM sonrası)*
 
-- **İçerik takvimi** — haftalık plan, platform bazlı yayın günü önerisi
-- **Rakip analizi** — rakip hesap analizi, hashtag analizi
-- **Brand voice** — marka tonu, yasaklı kelimeler, emoji kuralları
-- **Görsel brief üretimi** — carousel fikri, Canva brief, AI image prompt
-- **İçeriği yeniden kullanma** — tek içerikten farklı platformlara adaptasyon
-- **Multi-agent yapısı** — research, writer, editor, classification agent'ları
-- **Gelişmiş onay mekanizması** — Telegram butonlu onay, n8n Form, Google Sheet
+## Sonradan eklenebilecek özellikler
+
+- İçerik takvimi, rakip analizi, brand voice
+- Görsel brief / AI image prompt
+- Multi-agent (research, writer, editor)
+- Telegram butonlu onay, Form, Sheet
+- Schedule ile periyodik WF-02

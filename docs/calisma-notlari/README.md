@@ -1,9 +1,15 @@
 # Çalışma Notları
 
-Projede adım adım yaptığımız işleri açıklayıcı şekilde burada dokümante ederiz.
+Projede adım adım yapılan işler.
 
-| Dosya | Konu |
-|-------|------|
-| [n8n-kurulum.md](./n8n-kurulum.md) | Docker ile n8n kurulumu |
-| [faz-2-workflow-1.md](./faz-2-workflow-1.md) | Workflow 1 kurulum notları |
-| [faz-3-data-table-telegram.md](./faz-3-data-table-telegram.md) | Data Table + Telegram notları |
+| Dosya | Konu | Durum |
+|-------|------|--------|
+| [n8n-kurulum.md](./n8n-kurulum.md) | Docker ile n8n | ✅ |
+| [faz-2-workflow-1.md](./faz-2-workflow-1.md) | WF-01 Manuel içerik | ✅ |
+| [faz-3-data-table-telegram.md](./faz-3-data-table-telegram.md) | Data Table + Telegram | ✅ |
+| [faz-4-workflow-2.md](./faz-4-workflow-2.md) | WF-02 RSS kaynak | ✅ |
+| [faz-5-error-handling.md](./faz-5-error-handling.md) | WF-03 Error + retry | ✅ |
+| [faz-6-final.md](./faz-6-final.md) | Final / kapanış | ✅ |
+| [faz-a-telegram-onay.md](./faz-a-telegram-onay.md) | Onay + görsel + yayın — Faz A buton | 🔄 |
+
+Problem ve çözüm özeti → [`../karsilasilan-problemler.md`](../karsilasilan-problemler.md), [`../cozum-notlari.md`](../cozum-notlari.md)

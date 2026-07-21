@@ -11,6 +11,9 @@ flowchart TD
     E --> F[Telegram'a Taslak Gönderimi]
     F --> G[Onay Süreci]
     G --> H[Yayın / Arşiv]
+    D -.->|Hata| E3[WF-03 Error Handling]
+    E -.->|Hata| E3
+    F -.->|Hata| E3
 ```
 
 ## Workflow 1 — Manuel İçerik
@@ -19,7 +22,7 @@ flowchart TD
 flowchart TD
     A[Manual Trigger] --> B[Set Node]
     B --> C[AI Agent]
-    C --> D[Structured Output]
+    C --> D[Code / telegram_message]
     D --> E[Data Table]
     E --> F[Telegram]
 ```
@@ -28,12 +31,23 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    A[Schedule Trigger] --> B[RSS/HTTP]
-    B --> C[Veri Temizleme]
-    C --> D[Duplicate Kontrolü]
-    D --> E[AI Agent]
-    E --> F[Data Table]
-    F --> G[Telegram]
+    A[Schedule / Manual] --> B[RSS Read]
+    B --> C[Veri Temizle]
+    C --> D[Duplicate Kontrol]
+    D --> E[Limit 1]
+    E --> F[AI Agent]
+    F --> G[Code]
+    G --> H[Data Table]
+    H --> I[Telegram]
+```
+
+## Workflow 3 — Error Handling
+
+```mermaid
+flowchart TD
+    A[Error Trigger] --> B[Hata Mesaji Code]
+    B --> C[social_media_errors]
+    C --> D[Telegram HATA]
 ```
 
 ## Onay Süreci (İlk Aşama)

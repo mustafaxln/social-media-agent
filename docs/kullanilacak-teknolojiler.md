@@ -1,26 +1,32 @@
 # Kullanılacak Teknolojiler
 
-- Docker & Docker Compose
-- n8n (self-hosted)
-- AI Agent / Chat Model (OpenAI, Anthropic vb.)
-- n8n Data Tables
-- Telegram Bot API
-- RSS / HTTP Request
+## Kullanılanlar (ilk versiyon)
 
-## Teknoloji Seçim Gerekçeleri
+| Teknoloji | Kullanım |
+|-----------|----------|
+| Docker & Docker Compose | Local n8n (`docker-compose.yml`) |
+| n8n (self-hosted) | 3 workflow, Data Tables, AI Agent |
+| OpenAI (`gpt-4o-mini`) | İçerik üretimi (WF-01, WF-02) |
+| n8n Data Tables | `social_media_contents`, `social_media_errors` (+ logs şeması) |
+| Telegram Bot API | Taslak + HATA bildirimi (grup) |
+| RSS Feed Read | Webrazzi — `https://webrazzi.com/feed` |
 
-| Teknoloji | Neden Seçildi |
-|-----------|---------------|
-| **n8n** | Görsel workflow builder, AI agent desteği, Data Table, self-hosted |
-| **Docker** | Tek komutla local kurulum, taşınabilir ortam |
-| **AI Agent** | Structured output ile JSON formatında içerik üretimi |
-| **n8n Data Tables** | Ekstra veritabanı kurmadan içerik ve log kaydı |
-| **Telegram Bot API** | Hızlı taslak bildirimi, mobil onay kontrolü |
+## Seçim gerekçeleri
 
-## Değerlendirilen Alternatifler
+| Teknoloji | Neden |
+|-----------|-------|
+| **n8n** | Görsel builder, AI agent, Data Table, self-hosted |
+| **Docker** | Tek komut kurulum, Mac/Windows taşınabilirlik |
+| **OpenAI** | Structured JSON, n8n credential ile kolay entegrasyon |
+| **Data Tables** | Ekstra DB kurmadan kayıt + duplicate |
+| **Telegram** | Hızlı mobil bildirim, manuel onay için yeterli |
+| **Webrazzi RSS** | TR e-ticaret/teknoloji haberleri; tek kaynak yeterli |
 
-| Alternatif | Neden Seçilmedi |
+## Değerlendirilen alternatifler
+
+| Alternatif | Neden seçilmedi |
 |------------|-----------------|
-| Zapier / Make | Ücretli, AI agent esnekliği sınırlı |
-| Custom Python script | Görsel workflow yok, bakım maliyeti yüksek |
-| Google Apps Script | AI entegrasyonu ve otomasyon sınırlı |
+| Zapier / Make | Ücretli, AI esnekliği sınırlı |
+| Custom Python | Görsel workflow yok, bakım pahalı |
+| Anthropic (Claude) | OpenAI n8n'de hazır; gerekirse eklenebilir |
+| Ayrı PostgreSQL | Data Table ilk versiyon için yeterli |

@@ -1,40 +1,30 @@
 # Planlanan Workflow Yapısı
 
-| # | Workflow | Tetikleyici |
-|---|----------|-------------|
-| 1 | Manuel İçerik Üretme | Manual Trigger |
-| 2 | Kaynaktan İçerik Üretme | Schedule Trigger |
-| 3 | Error Handling | Error Trigger |
+| # | Workflow | Tetikleyici | Export |
+|---|----------|-------------|--------|
+| 1 | Manuel İçerik Üretme | Manual Trigger | `WF-01 Manuel İçerik Üretme.json` |
+| 2 | Kaynaktan İçerik Üretme | Schedule (+ Manual test) | `WF-02 Kaynaktan İçerik Üretme.json` |
+| 3 | Error Handling | Error Trigger | `WF-03 Error Handling.json` |
 
 ## Workflow 1 — Manuel İçerik Üretme
 
 ```
-Manual Trigger → Set Node → AI Agent → Structured Output → Data Table → Telegram
+Manual Trigger → Set Node → AI Agent → Code → Data Table → Telegram
 ```
-
-**Set Node girdi örneği:**
-
-```json
-{
-  "topic": "E-ticarette yapay zeka kullanımı",
-  "platform": "LinkedIn",
-  "target_audience": "E-ticaret markaları",
-  "tone": "Profesyonel ve öğretici"
-}
-```
-
-**AI çıktı alanları:** title, content, platform, category, target_audience, hashtags, visual_idea, cta, tone, impact_score
 
 ## Workflow 2 — Kaynaktan İçerik Üretme
 
 ```
-Schedule Trigger → RSS/HTTP → Veri Temizleme → Duplicate Kontrolü → AI Agent → Data Table → Telegram
+Schedule Trigger → RSS → Veri Temizle → Duplicate Kontrol → Limit → AI Agent → Code → Data Table → Telegram
 ```
 
-**Kaynaktan çekilecek alanlar:** title, description, url, published_at, source_name
+**Duplicate:** Data Table If row doesn't exist — `source_url` = RSS `url`  
+**Kaynak URL (Code):** `$('Limit').first().json`
 
 ## Workflow 3 — Error Handling
 
 ```
-Error Trigger → Hata Bilgileri → Error Data Table → Telegram Error Kanalı
+Error Trigger → Hata Mesaji (Code) → social_media_errors → Telegram
 ```
+
+WF-01 ve WF-02 Settings → Error Workflow = WF-03.

@@ -1,0 +1,516 @@
+{
+  "name": "WF-02 Kaynaktan İçerik Üretme",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://webrazzi.com/feed",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "5a9dbd6e-270f-44d2-908c-f50c162afbac",
+      "name": "RSS Read",
+      "retryOnFail": true,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        832,
+        0
+      ],
+      "id": "9317dbf2-9eee-4a68-9a88-47c97fe62ccf",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "operation": "rowNotExists",
+        "dataTableId": {
+          "__rl": true,
+          "value": "6aT7H8YRsGUlIaWa",
+          "mode": "list",
+          "cachedResultName": "social_media_contents",
+          "cachedResultUrl": "/projects/dTrHtXVql3QtKgyf/datatables/6aT7H8YRsGUlIaWa"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "source_url",
+              "keyValue": "={{ $json.url }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        624,
+        0
+      ],
+      "id": "c3c5a8f1-8983-4f66-a7da-bd2fd8331a99",
+      "name": "Duplicate Kontrol",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Kaynak: {{ $json.source_name }}\nBaslik: {{ $json.title }}\nAciklama: {{ $json.description }}\nURL: {{ $json.url }}\nYayin tarihi: {{ $json.published_at }}\n\nHedef kitle: E-ticaret markalari\nTon: Profesyonel ve ogretici",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "Sen bir sosyal medya içerik stratejisti gibi calisiyorsun.\n\nGorevin: Verilen haber/kaynak icerigine gore LinkedIn veya Instagram icin uygun sosyal medya icerigi uretmek ve siniflandirmak.\n\nKURALLAR:\n1. Kaynak metnini referans al; uydurma bilgi ekleme.\n2. Platform secimi: LinkedIn (uzun, profesyonel) veya Instagram (kisa, akici).\n3. Icerik hedef kitleye uygun olmali: E-ticaret markalari.\n4. Hashtag: En az 4, en fazla 8. Her hashtag # ile baslamali.\n   - Tire (-), bosluk ve Turkce ozel karakter (ı, ş, ğ, ü, ö, ç) KULLANMA.\n   - Ornekler: #Eticaret, #YapayZeka, #Ecommerce — yanlis: #E-ticaret, #e-ticaret\n5. CTA ve visual_idea mutlaka ekle.\n6. impact_score: 1-5 arasi tam sayi.\n7. Yanit SADECE gecerli JSON olsun.\n\nPLATFORM — platform alaninda yalnizca: LinkedIn veya Instagram.\nIcerige gore sen sec (LinkedIn: uzun/profesyonel haber; Instagram: kisa/ozet).\n\nICERIK KATEGORISI — category alaninda yalnizca sunlardan biri:\n- Egitici icerik\n- Haber yorumu\n- Trend yorumu\n- Urun tanitimi\n- Problem / cozum\n\nKaynak haberler icin agirlikli: Haber yorumu veya Egitici icerik sec."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1040,
+        0
+      ],
+      "id": "1a6ee056-fb1b-417d-8f41-9bd3cd2feecf",
+      "name": "AI Agent",
+      "retryOnFail": true,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        1040,
+        176
+      ],
+      "id": "87efe514-c20a-4fa7-bef8-e41bf8acaf83",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "pnMw55DJbPCItXTh",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"title\": \"string\",\n  \"platform\": \"string\",\n  \"category\": \"string\",\n  \"target_audience\": \"string\",\n  \"content\": \"string\",\n  \"hashtags\": [\"#ornek1\", \"#ornek2\"],\n  \"visual_idea\": \"string\",\n  \"cta\": \"string\",\n  \"tone\": \"string\",\n  \"impact_score\": 4\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1184,
+        176
+      ],
+      "id": "55db6f1e-5abf-44ac-91fa-ea5d564be5d8",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "caa781ba-906e-4068-8901-d3ab8c8ae272",
+              "name": "title",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "8b9e3163-2a2a-49fe-bb64-b69029a1d846",
+              "name": "description",
+              "value": "={{ $json.contentSnippet || $json.content }}",
+              "type": "string"
+            },
+            {
+              "id": "0a1aa03b-c5d2-4ac1-bae0-5b01a067309a",
+              "name": "url",
+              "value": "={{ $json.link }}",
+              "type": "string"
+            },
+            {
+              "id": "8a90ab13-0b01-4b72-b5a5-561d3224b386",
+              "name": "published_at",
+              "value": "={{ $json.pubDate || $json.isoDate }}",
+              "type": "string"
+            },
+            {
+              "id": "1a9ada2f-2f03-4128-91f2-cfa19f677bef",
+              "name": "source_name",
+              "value": "Webrazzi",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "4e914e3f-c3d7-4535-bc38-ad5978529288",
+      "name": "Veri Temizle"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "6aT7H8YRsGUlIaWa",
+          "mode": "list",
+          "cachedResultName": "social_media_contents",
+          "cachedResultUrl": "/projects/dTrHtXVql3QtKgyf/datatables/6aT7H8YRsGUlIaWa"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "title": "={{ $json.title }}",
+            "content": "={{ $json.content }}",
+            "platform": "={{ $json.platform }}",
+            "category": "={{ $json.category }}",
+            "target_audience": "={{ $json.target_audience }}",
+            "hashtags": "={{ $json.hashtags.join(' ') }}",
+            "visual_idea": "={{ $json.visual_idea }}",
+            "cta": "={{ $json.cta }}",
+            "tone": "={{ $json.tone }}",
+            "impact_score": "={{ $json.impact_score }}",
+            "status": "waiting_approval",
+            "source_url": "={{ $json.source_url }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "content",
+              "displayName": "content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "platform",
+              "displayName": "platform",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "category",
+              "displayName": "category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "target_audience",
+              "displayName": "target_audience",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "hashtags",
+              "displayName": "hashtags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "visual_idea",
+              "displayName": "visual_idea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "cta",
+              "displayName": "cta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "tone",
+              "displayName": "tone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "impact_score",
+              "displayName": "impact_score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "source_url",
+              "displayName": "source_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1600,
+        0
+      ],
+      "id": "1e8519c5-9daf-45c4-ab70-122bb9800b53",
+      "name": "Insert row"
+    },
+    {
+      "parameters": {
+        "chatId": "-1004488708928",
+        "text": "={{ $('telegram mesaj').item.json.telegram_message }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1808,
+        0
+      ],
+      "id": "deba0cae-de36-4b66-b568-15b924483d0c",
+      "name": "Send a text message",
+      "webhookId": "c9403e36-3be0-41d5-a3d9-634614be9d49",
+      "retryOnFail": true,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "telegramApi": {
+          "id": "LHt46cuR23BuvjVH",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\nconst d = item.output || item;\n\nconst source = $('Limit').first().json;\n\nconst hashtags = Array.isArray(d.hashtags)\n  ? d.hashtags\n      .map((tag) => String(tag).trim().replace(/-/g, ''))\n      .join(' ')\n  : String(d.hashtags || '').replace(/#/g, ' #').replace(/-/g, '');\n\nconst message = `Yeni Sosyal Medya Icerik Taslagi\n\nPlatform: ${d.platform || ''}\nKategori: ${d.category || ''}\nHedef Kitle: ${d.target_audience || ''}\nEtki Skoru: ${d.impact_score || ''}/5\n\nKaynak: ${source.source_name || ''} — ${source.url || ''}\n\nBaslik:\n${d.title || ''}\n\nIcerik:\n${d.content || ''}\n\nHashtagler:\n${hashtags}\n\nGorsel Fikri:\n${d.visual_idea || ''}\n\nCTA:\n${d.cta || ''}\n\nDurum: Onay bekliyor`;\n\nreturn [{\n  json: {\n    ...d,\n    source_url: source.url || '',\n    telegram_message: message\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1392,
+        0
+      ],
+      "id": "745b7193-4c46-4f32-bd99-2c0c86a6b541",
+      "name": "telegram mesaj"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "seconds"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "fb913c0d-e96d-4176-9de6-06c444f3e857",
+      "name": "Schedule Trigger"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "RSS Read": {
+      "main": [
+        [
+          {
+            "node": "Veri Temizle",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Duplicate Kontrol": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "telegram mesaj",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Veri Temizle": {
+      "main": [
+        [
+          {
+            "node": "Duplicate Kontrol",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert row": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "telegram mesaj": {
+      "main": [
+        [
+          {
+            "node": "Insert row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "RSS Read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "5YD050ZxhzeHIDyd",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "ecc6aa44-a47f-4aca-a836-7780507470b3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5387abe0532c44e66001f3e780de83667825ca1428bc9bf3beffe6a8a965a742"
+  },
+  "nodeGroups": [],
+  "id": "feL5DHmXCJeWB4QV",
+  "tags": []
+}

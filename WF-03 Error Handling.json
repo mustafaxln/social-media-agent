@@ -1,0 +1,186 @@
+{
+  "name": "WF-03 Error Handling",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8ca291c0-b8cf-4073-ac01-c33964e66ce8",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "M0BAUEAIcCtsPIlg",
+          "mode": "list",
+          "cachedResultName": "social_media_errors",
+          "cachedResultUrl": "/projects/dTrHtXVql3QtKgyf/datatables/M0BAUEAIcCtsPIlg"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "workflow_name": "={{ $json.workflow_name }}",
+            "execution_id": "={{ $json.execution_id }}",
+            "node_name": "={{ $json.node_name }}",
+            "error_message": "={{ $json.error_message }}",
+            "created_at": "={{ $json.created_at }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "workflow_name",
+              "displayName": "workflow_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "execution_id",
+              "displayName": "execution_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "node_name",
+              "displayName": "node_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "error_message",
+              "displayName": "error_message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "d6573f14-fa15-4635-a419-72afce0146f7",
+      "name": "Insert row"
+    },
+    {
+      "parameters": {
+        "chatId": "-1004488708928",
+        "text": "={{ $('Hata Mesaji').item.json.telegram_message }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        624,
+        0
+      ],
+      "id": "e08e8fdb-2563-4125-bcd8-97611bc13063",
+      "name": "Send a text message",
+      "webhookId": "84bd667c-fbb4-4503-85d7-bbe20cd45cbb",
+      "credentials": {
+        "telegramApi": {
+          "id": "LHt46cuR23BuvjVH",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json;\n\nconst workflow_name = raw.workflow?.name || String(raw.workflow || 'unknown');\nconst execution_id = String(raw.execution?.id ?? '');\n\nconst node_name =\n  raw.execution?.lastNodeExecuted ||\n  raw.node?.name ||\n  raw.trigger?.error?.node?.name ||\n  '';\n\nlet error_message =\n  raw.execution?.error?.message ||\n  raw.execution?.error?.description ||\n  raw.error?.message ||\n  raw.trigger?.error?.message ||\n  '';\n\nif (!error_message && raw.execution?.error) {\n  error_message =\n    typeof raw.execution.error === 'string'\n      ? raw.execution.error\n      : JSON.stringify(raw.execution.error);\n}\n\nif (!error_message) {\n  error_message = JSON.stringify(raw);\n}\n\nconst created_at = new Date().toISOString();\n\nconst telegram_message = `Sosyal Medya Agent — HATA\n\nWorkflow: ${workflow_name}\nExecution: ${execution_id}\nNode: ${node_name || '-'}\n\nHata:\n${error_message}\n\nZaman: ${created_at}`;\n\nreturn [{\n  json: {\n    workflow_name,\n    execution_id,\n    node_name,\n    error_message,\n    created_at,\n    telegram_message\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "760d5910-7210-4f97-ba4b-6e3061b784bf",
+      "name": "Hata Mesaji"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Hata Mesaji",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert row": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hata Mesaji": {
+      "main": [
+        [
+          {
+            "node": "Insert row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "871c4057-29e6-406d-9d1e-27182e6d93e9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5387abe0532c44e66001f3e780de83667825ca1428bc9bf3beffe6a8a965a742"
+  },
+  "nodeGroups": [],
+  "id": "5YD050ZxhzeHIDyd",
+  "tags": []
+}
