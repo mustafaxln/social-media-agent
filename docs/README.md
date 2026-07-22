@@ -13,6 +13,9 @@
 |-------|--------|
 | [sistem-dokumantasyonu.md](./sistem-dokumantasyonu.md) | Mimari, WF’ler, `/yeni`, servisler |
 | [proje-final-ozeti.md](./proje-final-ozeti.md) | Kapanış özeti: yaptık / takıldık / çözdük |
+| [maliyet-notlari.md](./maliyet-notlari.md) | Post başına ~0,02–0,03 USD |
+| [ekran-goruntuleri/](./ekran-goruntuleri/) | Demo 1–7 + README |
+| [`../Sosyal-Medya-Icerik-Ajani-Tanitim.pdf`](../Sosyal-Medya-Icerik-Ajani-Tanitim.pdf) | Teknik olmayan tanıtım PDF |
 | [proje-amaci.md](./proje-amaci.md) | Amaç ve kapsam (final) |
 | [yol-haritasi-onay-gorsel-yayin.md](./yol-haritasi-onay-gorsel-yayin.md) | Onay + görsel + yayın + `/yeni` |
 | [kullanilacak-teknolojiler.md](./kullanilacak-teknolojiler.md) | Stack |

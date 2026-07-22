@@ -25,6 +25,10 @@ Belirlenen kaynaklardan (Telegram `/yeni` veya RSS) sosyal medya içerik fikirle
 | Görsel + yayın | ✅ Cloudinary + Buffer |
 | Error + retry | ✅ WF-03 |
 
+## Maliyet
+
+Post başına **~0,02 – 0,03 USD** (metin + görsel). → [`maliyet-notlari.md`](./maliyet-notlari.md)
+
 ## Sonraya
 
 Sabit tunnel/VPS, execution_logs insert, ağır fallback, PM §15–16 (takvim, brand voice, multi-agent), grupta `/yeni` (bilinçli bırakıldı).

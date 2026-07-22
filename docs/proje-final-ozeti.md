@@ -14,6 +14,12 @@ Uçtan uca **sosyal medya içerik ajanı** (local Docker n8n):
 
 Günlük iş için n8n UI şart değil; tunnel + Active WF yeterli.
 
+## Maliyet
+
+Onaylanıp görseli üretilen post başına **yaklaşık 0,02 – 0,03 USD** (OpenAI metin + görsel; Tem 2026 gözlemi).  
+Detay → [`maliyet-notlari.md`](./maliyet-notlari.md)  
+Tanıtım PDF → [`../Sosyal-Medya-Icerik-Ajani-Tanitim.pdf`](../Sosyal-Medya-Icerik-Ajani-Tanitim.pdf)
+
 ## Mimari (kısa)
 
 - **WF-04** = tek Telegram kapısı (`/yeni` + butonlar)  

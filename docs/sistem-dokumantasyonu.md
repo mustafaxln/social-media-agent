@@ -136,6 +136,8 @@ Pin şablonu: [`templates/telegram/yeni-komut-sablonu.md`](../templates/telegram
 | Webrazzi RSS | Kaynak |
 | cloudflared quick tunnel | Local HTTPS → `WEBHOOK_URL` |
 
+**Maliyet:** Onaylı post (metin + görsel) ≈ **0,02 – 0,03 USD**. → [`maliyet-notlari.md`](./maliyet-notlari.md)
+
 ---
 
 ## 6. Data Table

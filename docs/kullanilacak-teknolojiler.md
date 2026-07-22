@@ -38,4 +38,5 @@
 | Tek onay + direkt yayın | 2 kademeli onay (görsel kontrolü) |
 | n8n Edit Fields ile günlük manuel | Telegram DM `/yeni` (PM) |
 | Grupta `/yeni` | DM (grup tetikleme güvenilir değil) |
-| Cloudflare quick tunnel (kalıcı) | Named Tunnel / VPS — sonraya |
+| Cloudflare quick tunnel (ücretsiz) | Named Tunnel / VPS — sonraya |
+| — | **Post maliyeti ~0,02–0,03 USD** → [`maliyet-notlari.md`](./maliyet-notlari.md) |

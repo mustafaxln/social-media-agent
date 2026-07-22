@@ -50,3 +50,9 @@ Ana doküman → [`docs/sistem-dokumantasyonu.md`](./docs/sistem-dokumantasyonu.
 ## Durum
 
 **Final** (Tem 2026): `/yeni` DM, 2 kademeli onay, Cloudinary, Buffer, error handling, cold-start dokümanı.
+
+## Tanıtım PDF
+
+Teknik olmayan özet + demo ekran görüntüleri:  
+[`Sosyal-Medya-Icerik-Ajani-Tanitim.pdf`](./Sosyal-Medya-Icerik-Ajani-Tanitim.pdf)  
+(Yeniden üretmek: `python3 scripts/build_tanitim_pdf.py`)
