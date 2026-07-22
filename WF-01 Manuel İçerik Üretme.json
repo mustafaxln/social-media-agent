@@ -36,8 +36,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        208,
-        0
+        192,
+        -256
       ],
       "id": "dc6e25a5-93fb-4bfe-8dbb-8a64c952f95d",
       "name": "Edit Fields",
@@ -324,35 +324,38 @@
     },
     {
       "parameters": {
-        "rule": {
-          "interval": [
+        "workflowInputs": {
+          "values": [
             {
-              "field": "seconds"
+              "name": "topic"
+            },
+            {
+              "name": "platform"
+            },
+            {
+              "name": "target_audience"
+            },
+            {
+              "name": "tone"
             }
           ]
         }
       },
-      "type": "n8n-nodes-base.scheduleTrigger",
-      "typeVersion": 1.3,
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
       "position": [
-        0,
+        32,
         0
       ],
-      "id": "49641ef4-43ff-4e78-a317-7703bc188ed5",
-      "name": "Schedule Trigger"
+      "id": "ed3efe71-afb8-4ca6-8a51-0757f48da23f",
+      "name": "When Executed by Another Workflow"
     }
   ],
   "pinData": {},
   "connections": {
     "Edit Fields": {
       "main": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "OpenAI Chat Model": {
@@ -410,11 +413,11 @@
         ]
       ]
     },
-    "Schedule Trigger": {
+    "When Executed by Another Workflow": {
       "main": [
         [
           {
-            "node": "Edit Fields",
+            "node": "AI Agent",
             "type": "main",
             "index": 0
           }
@@ -422,7 +425,7 @@
       ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
@@ -431,7 +434,7 @@
     "errorWorkflow": "5YD050ZxhzeHIDyd",
     "callerPolicy": "workflowsFromSameOwner"
   },
-  "versionId": "450de7b6-d624-4223-9ea8-65c0310ad55e",
+  "versionId": "5c702c3a-0708-452f-9963-2e509d88ed85",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "5387abe0532c44e66001f3e780de83667825ca1428bc9bf3beffe6a8a965a742"

@@ -12,6 +12,8 @@ docker compose up -d
 
 n8n: http://localhost:5678 (`admin`)
 
+**1 ay sonra tekrar açmak için** → [`docs/calisma-notlari/projeyi-yeniden-calistirma.md`](./docs/calisma-notlari/projeyi-yeniden-calistirma.md)
+
 ## Sistem özeti
 
 ```

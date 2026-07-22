@@ -5,6 +5,7 @@ Projede adım adım yapılan işler.
 | Dosya | Konu | Durum |
 |-------|------|--------|
 | [n8n-kurulum.md](./n8n-kurulum.md) | Docker ile n8n | ✅ |
+| [projeyi-yeniden-calistirma.md](./projeyi-yeniden-calistirma.md) | 1 ay sonra / cold start rehberi | ✅ |
 | [faz-2-workflow-1.md](./faz-2-workflow-1.md) | WF-01 Manuel içerik | ✅ |
 | [faz-3-data-table-telegram.md](./faz-3-data-table-telegram.md) | Data Table + Telegram | ✅ |
 | [faz-4-workflow-2.md](./faz-4-workflow-2.md) | WF-02 RSS kaynak | ✅ |

@@ -23,7 +23,9 @@
 
 ## Çalışma notları
 
-[`calisma-notlari/`](./calisma-notlari/) — faz / checkpoint notları
+[`calisma-notlari/`](./calisma-notlari/) — faz / checkpoint notları  
+
+**Yeniden çalıştırma:** [`calisma-notlari/projeyi-yeniden-calistirma.md`](./calisma-notlari/projeyi-yeniden-calistirma.md)
 
 ## Plan / PM
 

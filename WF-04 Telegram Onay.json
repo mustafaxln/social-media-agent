@@ -4,15 +4,16 @@
     {
       "parameters": {
         "updates": [
-          "callback_query"
+          "callback_query",
+          "message"
         ],
         "additionalFields": {}
       },
       "type": "n8n-nodes-base.telegramTrigger",
       "typeVersion": 1.3,
       "position": [
-        0,
-        32
+        -400,
+        48
       ],
       "id": "f215180d-4c83-44f9-bfed-2dbfc87d3a7d",
       "name": "Telegram Trigger",
@@ -1215,6 +1216,229 @@
       "name": "Cloudinary Upload",
       "retryOnFail": true,
       "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.route }}",
+                    "rightValue": "callback",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "e9907682-a636-4367-8e14-4ca662a0df1a"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "callback"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "be48fc12-630b-4b8a-b910-742b1f000c19",
+                    "leftValue": "={{ $json.route }}",
+                    "rightValue": "yeni",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "yeni"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        16,
+        48
+      ],
+      "id": "911254bd-70bb-47e6-89a4-565f4beb1056",
+      "name": "Giris Tipi"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json;\nconst msg = raw.message || {};\nconst text = String(msg.text || raw.text || '').trim();\nconst chatId = msg.chat?.id || raw.chat?.id || '';\n\nif (!text.toLowerCase().startsWith('/yeni')) {\n  return [{\n    json: {\n      ok: false,\n      chat_id: chatId,\n      error: 'Komut /yeni ile başlamalı.'\n    }\n  }];\n}\n\nconst lines = text.split('\\n').map((l) => l.trim()).filter(Boolean);\nconst map = {};\n\nfor (const line of lines.slice(1)) {\n  const m = line.match(/^(platform|konu|topic|hedef|hedef kitle|target_audience|ton|tone)\\s*:\\s*(.+)$/i);\n  if (!m) continue;\n  const key = m[1].toLowerCase();\n  const val = m[2].trim();\n  if (key === 'konu' || key === 'topic') map.topic = val;\n  else if (key === 'platform') map.platform = val;\n  else if (key === 'hedef' || key === 'hedef kitle' || key === 'target_audience') map.target_audience = val;\n  else if (key === 'ton' || key === 'tone') map.tone = val;\n}\n\nlet platform = (map.platform || '').trim();\nconst p = platform.toLowerCase();\nif (p.includes('linked')) platform = 'LinkedIn';\nelse if (p.includes('insta')) platform = 'Instagram';\n\nconst topic = map.topic || '';\nconst target_audience = map.target_audience || '';\nconst tone = map.tone || '';\n\nconst missing = [];\nif (!platform) missing.push('platform');\nif (!topic) missing.push('konu');\nif (!target_audience) missing.push('hedef');\nif (!tone) missing.push('ton');\n\nif (missing.length) {\n  return [{\n    json: {\n      ok: false,\n      chat_id: chatId,\n      error: `Eksik alan: ${missing.join(', ')}\\n\\nOrnek:\\n/yeni\\nplatform: LinkedIn\\nkonu: ...\\nhedef: ...\\nton: ...`\n    }\n  }];\n}\n\nreturn [{\n  json: {\n    ok: true,\n    chat_id: chatId,\n    topic,\n    platform,\n    target_audience,\n    tone\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -208,
+        352
+      ],
+      "id": "ce4a2648-4c6e-4b55-a0e0-f6cbdafc77d6",
+      "name": "Parse /yeni"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "0dc8d739-54e9-4707-8759-b9b2b1979d5c",
+              "leftValue": "={{ $json.ok }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -16,
+        352
+      ],
+      "id": "7ea3d8f8-0af7-4d58-b678-6a7e5ec841cc",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "T9ZUTUh9Fs5wZpZS",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/T9ZUTUh9Fs5wZpZS",
+          "cachedResultName": "WF-01 Manuel İçerik Üretme"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "topic": "={{ $json.topic }}",
+            "platform": "={{ $json.platform }}",
+            "target_audience": "={{ $json.target_audience }}",
+            "tone": "={{ $json.tone }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "topic",
+              "displayName": "topic",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "platform",
+              "displayName": "platform",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "target_audience",
+              "displayName": "target_audience",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "tone",
+              "displayName": "tone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        240,
+        336
+      ],
+      "id": "d8bfd67e-af4c-41a5-aa50-6e3eb4e8549d",
+      "name": "Call 'WF-01 Manuel İçerik Üretme'",
+      "retryOnFail": true,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "chatId": "-1004488708928",
+        "text": "={{ $json.error }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        608
+      ],
+      "id": "aae9cc39-0882-4f72-8043-a48d89367c76",
+      "name": "Send a text message",
+      "webhookId": "a41da2b6-fe2c-463a-9af6-793cdefa1998",
+      "credentials": {
+        "telegramApi": {
+          "id": "LHt46cuR23BuvjVH",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json;\n\nconst cq = raw.callbackQuery || raw.callback_query;\nconst callbackData = cq?.data || raw.data || '';\nconst text = String(\n  raw.message?.text || raw.text || ''\n).trim();\n\nlet route = 'ignore';\n\nif (callbackData && /^(approve|reject|publish|cancel):/i.test(String(callbackData))) {\n  route = 'callback';\n} else if (text.toLowerCase().startsWith('/yeni')) {\n  route = 'yeni';\n}\n\nreturn [{\n  json: {\n    ...raw,\n    route,\n    // callback dalı eski Callback Parse'i bozmasın diye ham veriyi koru\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -224,
+        48
+      ],
+      "id": "590c4ec0-7572-4549-a78e-40eb3ab8807f",
+      "name": "Giris Ayir"
     }
   ],
   "pinData": {},
@@ -1223,7 +1447,7 @@
       "main": [
         [
           {
-            "node": "Callback Parse",
+            "node": "Giris Ayir",
             "type": "main",
             "index": 0
           }
@@ -1386,6 +1610,64 @@
       "main": [
         []
       ]
+    },
+    "Giris Tipi": {
+      "main": [
+        [
+          {
+            "node": "Callback Parse",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Parse /yeni",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse /yeni": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Call 'WF-01 Manuel İçerik Üretme'",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Giris Ayir": {
+      "main": [
+        [
+          {
+            "node": "Giris Tipi",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
@@ -1397,7 +1679,7 @@
     "errorWorkflow": "5YD050ZxhzeHIDyd",
     "callerPolicy": "workflowsFromSameOwner"
   },
-  "versionId": "ddcf633c-c296-4087-bc5c-32f77613f747",
+  "versionId": "123c5b33-6e88-40bc-b3cb-b1896a8242c7",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "5387abe0532c44e66001f3e780de83667825ca1428bc9bf3beffe6a8a965a742"
