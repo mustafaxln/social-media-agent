@@ -1,57 +1,45 @@
 # Sistem Dokümantasyonu — Sosyal Medya İçerik Ajansı
 
-> **Durum:** Tamamlandı (Temmuz 2026)  
-> **Kapsam:** Üretim → 2 kademeli Telegram onayı → görsel → Buffer ile LinkedIn/Instagram yayın + error handling  
-> **Not:** Bu dosya projenin uçtan uca teknik özetidir. Workflow dosyalarına dokunulmadan yazılmıştır.
+> **Durum:** Final / Tamamlandı (Temmuz 2026)  
+> **Kapsam:** Telegram `/yeni` ile manuel üretim + RSS → 2 kademeli onay → görsel → Buffer yayın + error handling  
+> **Yeniden çalıştırma:** [`calisma-notlari/projeyi-yeniden-calistirma.md`](./calisma-notlari/projeyi-yeniden-calistirma.md)
 
 ---
 
 ## 1. Proje özeti
 
-n8n tabanlı otomasyon:
+n8n tabanlı otomasyon; n8n UI’ya günlük giriş gerekmez.
 
-1. **Manuel** konu veya **RSS** (Webrazzi) ile içerik fikri alır  
-2. AI ile LinkedIn / Instagram post taslağı üretir  
-3. Data Table’a kaydeder (`waiting_approval`)  
-4. Telegram’a taslak + **Onayla / Reddet** gönderir  
-5. Onayda görsel üretir (OpenAI Image mini) → Cloudinary URL  
-6. Final önizleme (foto + metin) + **Yayınla / İptal**  
+1. **Manuel içerik:** Bota **DM** ile `/yeni` (platform, konu, hedef, ton) → WF-04 → WF-01  
+2. **RSS içerik:** WF-02 (Webrazzi) Schedule/Manual → AI platform seçer  
+3. Data Table’a kayıt (`waiting_approval`)  
+4. **Grupta** taslak + **Onayla / Reddet**  
+5. Onay → görsel (gpt-image-1-mini) → Cloudinary → `image_url`  
+6. Final önizleme + **Yayınla / İptal**  
 7. Yayınla → Buffer → LinkedIn veya Instagram → `published`  
-8. Hatalar → WF-03 → `social_media_errors` + Telegram HATA  
+8. Hata → WF-03 → `social_media_errors` + Telegram HATA  
 
-**Hedef kitle:** E-ticaret markaları  
-**Ton:** Profesyonel ve öğretici  
+**Hedef kitle:** E-ticaret markaları · **Ton:** Profesyonel ve öğretici  
 
 ---
 
-## 2. Mimari
+## 2. Mimari (final)
 
 ```
-┌─────────────┐     ┌─────────────┐
-│ WF-01 Manuel│     │ WF-02 RSS   │
-│ konu+platform│     │ Schedule/   │
-│ (biz seçer) │     │ Manual      │
-└──────┬──────┘     └──────┬──────┘
-       │                   │
-       └─────────┬─────────┘
-                 ▼
-    social_media_contents (waiting_approval)
-                 ▼
-         Telegram taslak [Onayla|Reddet]
-                 ▼
-┌────────────────────────────────────────┐
-│ WF-04 Telegram Onay / Görsel / Yayın   │
-│  reject → rejected                     │
-│  approve → Image → Cloudinary → FINAL  │
-│            Telegram [Yayınla|İptal]    │
-│  cancel → preview_rejected             │
-│  publish → Buffer → LI/IG → published  │
-└────────────────────────────────────────┘
-                 │ (hata)
-                 ▼
-         WF-03 Error Handling
-         → social_media_errors + Telegram HATA
+Telegram DM: /yeni ──┐
+                     ├──► WF-04 (tek Telegram Trigger)
+WF-02 RSS ───────────┘         │
+                               ├─ route=yeni → Parse → Execute → WF-01
+                               └─ route=callback → onay/görsel/Buffer
+WF-01: AI → Insert → Grup taslak [Onayla|Reddet]
+         │
+         ▼
+   waiting_approval → approved → image → FINAL [Yayınla|İptal] → published
+         │
+         └── hata → WF-03
 ```
+
+**Kritik kural:** Aynı botta **tek** Telegram Trigger (WF-04). İkinci Trigger webhook çakışması yaratır.
 
 ---
 
@@ -59,145 +47,165 @@ n8n tabanlı otomasyon:
 
 | ID | Ad | Tetikleyici | Görev |
 |----|-----|-------------|--------|
-| WF-01 | Manuel İçerik Üretme | Manual | Konu + platform → AI → Insert → Telegram buton |
-| WF-02 | Kaynaktan İçerik Üretme | Schedule + Manual | RSS → duplicate → Limit → AI → Insert → Telegram buton |
-| WF-03 | Error Handling | Error Trigger | Hata kaydı + Telegram HATA |
-| WF-04 | Telegram Onay / Yayın | Telegram Callback | Onay, görsel, Buffer yayın |
+| WF-01 | Manuel İçerik Üretme | **Execute Workflow** (WF-04’ten) | AI → Insert → grup taslak |
+| WF-02 | Kaynaktan İçerik | Schedule + Manual | RSS → duplicate → AI → Insert → taslak |
+| WF-03 | Error Handling | Error Trigger | Hata kaydı + HATA mesajı |
+| WF-04 | Telegram Hub | Telegram (`message` + `callback_query`) | `/yeni` + onay/görsel/yayın |
 
-**Error Workflow bağları:** WF-01, WF-02, WF-04 → WF-03  
+**Error Workflow:** WF-01, WF-02, WF-04 → WF-03  
 
-**Export dosyaları (repo kökü):**  
-`WF-01 …json`, `WF-02 …json`, `WF-03 …json`  
-(WF-04 güncel export kullanıcı tarafından eklenmeli)
+**Export’lar (repo kökü):** `WF-01…`, `WF-02…`, `WF-03…`, `WF-04 Telegram Onay.json` (güncel export önerilir)
 
-### 3.1 WF-01 akış
+### 3.1 WF-01 — Manuel (n8n’siz giriş)
 
 ```
-Manual Trigger → Set (topic, platform, …)
+When Executed by Another Workflow
+  (topic, platform, target_audience, tone)
   → AI Agent (manuel-icerik-prompt)
   → Code (telegram_message)
-  → Insert (waiting_approval)
-  → Telegram (metin + approve:ID / reject:ID)
+  → Insert waiting_approval
+  → Telegram grup [Onayla|Reddet]
 ```
 
-Platform **kullanıcı** seçer.
+**Input schema:** `topic`, `platform`, `target_audience`, `tone` (String)  
+Eski Manual Trigger + Edit Fields kaldırılabilir / yedek test için tutulabilir.
 
-### 3.2 WF-02 akış
+### 3.2 WF-02 — Kaynak
 
 ```
-Schedule/Manual → RSS (webrazzi.com/feed)
-  → Veri Temizle → Duplicate (If row doesn't exist, source_url)
-  → Limit(1) → AI (kaynaktan-icerik-prompt; platform AI)
-  → Code ($('Limit').first() ile source_url)
+Schedule/Manual → RSS → Veri Temizle
+  → Duplicate (If row doesn't exist, source_url)
+  → Limit(1) → AI → Code ($('Limit').first())
   → Insert → Telegram buton
 ```
 
-### 3.3 WF-03 akış
+### 3.3 WF-03 — Error
 
 ```
-Error Trigger → Hata Mesaji (Code) → Insert social_media_errors → Telegram HATA
+Error Trigger → Hata Mesaji (Code) → social_media_errors → Telegram HATA
 ```
 
-### 3.4 WF-04 akış (callback_data)
+### 3.4 WF-04 — Telegram hub
 
-| data | Davranış |
-|------|----------|
-| `approve:ID` | status=approved → Image → Cloudinary → final Telegram |
-| `reject:ID` | status=rejected |
-| `publish:ID` | Get row → Buffer createPost → status=published |
-| `cancel:ID` | status=preview_rejected |
+```
+Telegram Trigger (message + callback_query)
+  → Giris Ayir (Code) → route: callback | yeni | ignore
+  → Switch
+       ├─ callback → Callback Parse → approve/reject/publish/cancel (eski zincir)
+       └─ yeni → Parse /yeni → IF ok → Execute Workflow WF-01
+```
 
-Instagram Buffer: `metadata.instagram.type = post`, `shouldShareToFeed = true`  
-Update Match (publish sonrası): `$('Callback Parse').item.json.content_id`
+| callback_data | Sonuç |
+|---------------|--------|
+| `approve:ID` | approved → Image → Cloudinary → FINAL |
+| `reject:ID` | rejected |
+| `publish:ID` | Buffer → published |
+| `cancel:ID` | preview_rejected |
 
----
-
-## 4. Dış servisler
-
-| Servis | Kullanım | Not |
-|--------|----------|-----|
-| OpenAI gpt-4o-mini | Metin | WF-01/02 |
-| OpenAI gpt-image-1-mini | Görsel | medium; prompt’ta yazı yasak |
-| Cloudinary | image_url | Unsigned upload preset |
-| Buffer Free | LI/IG yayın | GraphQL `https://api.buffer.com` |
-| Telegram Bot | Taslak / final / HATA | Grup; inline buton |
-| Webrazzi RSS | Kaynak | `https://webrazzi.com/feed` |
-| cloudflared | Local webhook HTTPS | `WEBHOOK_URL` in `.env` |
+Instagram Buffer: `metadata.instagram { type: post, shouldShareToFeed: true }`  
+Publish sonrası Update Match: `$('Callback Parse').item.json.content_id`
 
 ---
 
-## 5. Data Table
+## 4. `/yeni` kullanımı
 
-Detay: [`data-table-yapisi.md`](./data-table-yapisi.md)
+**Nereye:** Bota **özelden (DM)** — grupta tetikleme güvenilir değil (Telegram kısıtları).  
+**Taslak nereye düşer:** Sabit grup Chat ID (`-100…`).
 
-**Status:** `waiting_approval` → `approved` / `rejected` → (`preview_rejected`) → `published`  
+```text
+/yeni
+platform: LinkedIn
+konu: ...
+hedef: ...
+ton: Profesyonel ve öğretici
+```
 
-**Kritik sütunlar:** `id` (callback), `platform`, `image_url`, `source_url`, `status`
-
----
-
-## 6. Retry / fallback (PM §12–13)
-
-| Mekanizma | Uygulama |
-|-----------|----------|
-| Error WF | WF-03 + WF-01/02/04 bağlı |
-| Retry On Fail | Image, Cloudinary, Buffer, Telegram, AI, RSS |
-| İnsan fallback | Reddet / İptal (kötü taslak veya görsel) |
-| Ağır fallback | Yedek RSS / template — yok (bilinçli) |
-| execution_logs insert | Yok (şema var) |
+Pin şablonu: [`templates/telegram/yeni-komut-sablonu.md`](../templates/telegram/yeni-komut-sablonu.md)
 
 ---
 
-## 7. Local kurulum hatırlatması
+## 5. Dış servisler
+
+| Servis | Kullanım |
+|--------|----------|
+| OpenAI gpt-4o-mini | Metin (WF-01/02) |
+| OpenAI gpt-image-1-mini | Görsel (WF-04) |
+| Cloudinary | `secure_url` → image_url |
+| Buffer Free GraphQL | LI/IG yayın |
+| Telegram Bot | DM `/yeni`, grup onay, HATA |
+| Webrazzi RSS | Kaynak |
+| cloudflared quick tunnel | Local HTTPS → `WEBHOOK_URL` |
+
+---
+
+## 6. Data Table
+
+[`data-table-yapisi.md`](./data-table-yapisi.md)
+
+`waiting_approval` → `approved` / `rejected` → (`preview_rejected`) → `published`
+
+---
+
+## 7. Retry / fallback
+
+| Mekanizma | Durum |
+|-----------|--------|
+| WF-03 Error | ✅ WF-01/02/04 bağlı |
+| Retry On Fail | ✅ kritik node’larda |
+| İnsan (Reddet/İptal) | ✅ |
+| Ağır otomatik fallback | ❌ sonraya |
+| execution_logs insert | ❌ şema var, insert yok |
+
+---
+
+## 8. Local çalıştırma
+
+Detay: [`calisma-notlari/projeyi-yeniden-calistirma.md`](./calisma-notlari/projeyi-yeniden-calistirma.md)
 
 ```bash
 docker compose up -d
-# Telegram Trigger için:
 cloudflared tunnel --url http://localhost:5678
 # .env WEBHOOK_URL=https://….trycloudflare.com/
 docker compose up -d
+# WF-04 Inactive → Active
 ```
-
-n8n: http://localhost:5678 — detay: [`calisma-notlari/n8n-kurulum.md`](./calisma-notlari/n8n-kurulum.md)
 
 ---
 
-## 8. Prompt dosyaları
+## 9. Prompt’lar
 
-| Dosya | Kullanım |
-|--------|----------|
+| Dosya | WF |
+|--------|-----|
 | `prompts/manuel-icerik-prompt.md` | WF-01 |
 | `prompts/kaynaktan-icerik-prompt.md` | WF-02 |
 
-Görsel prompt (WF-04): yazı/logo yok; `visual_idea` + platform.
-
 ---
 
-## 9. Bilinen sorunlar ve çözümler
+## 10. Bilinen sorunlar
 
 Tam liste: [`karsilasilan-problemler.md`](./karsilasilan-problemler.md) · [`cozum-notlari.md`](./cozum-notlari.md)
 
-Öne çıkanlar: duplicate sırası, `$('Limit').first()`, HTTPS webhook, Cloudinary (ImgBB limit), Instagram Buffer `type`, publish sonrası `content_id` referansı.
+Öne çıkanlar (son dönem dahil): quick tunnel URL değişimi, Switch’te `callbackQuery.id` yokluğu → `Giris Ayir`, Telegram parse entities / Attribution, `/yeni` sadece DM, duplicate sırası, Cloudinary, Buffer IG type, `content_id` referansı.
 
 ---
 
-## 10. Sonraya bırakılanlar
+## 11. Sonraya
 
-- execution_logs insert  
-- Ağır otomatik fallback  
-- PM §15–16 (takvim, brand voice, multi-agent, …)  
-- WF-04 güncel JSON export (repoya eklenmeli)  
+- Named Tunnel / VPS (sabit HTTPS)  
+- execution_logs insert, ağır fallback  
+- PM §15–16 (takvim, brand voice, multi-agent)  
+- Grupta `/yeni` (privacy/admin ile hâlâ kırılgan; bilinçli DM tercihi)  
 
 ---
 
-## 11. Doküman haritası
+## 12. Doküman haritası
 
 | Dosya | İçerik |
 |--------|--------|
-| Bu dosya | Uçtan uca sistem özeti |
-| `yol-haritasi-onay-gorsel-yayin.md` | Onay/görsel/yayın final akış |
-| `akis-semasi.md` | Mermaid şemalar |
-| `planlanan-workflow-yapisi.md` | WF tablosu |
-| `calisma-notlari/` | Faz ve checkpoint notları |
-| `../proje-plani.md` | Faz 0–6 plan |
-| `../proje-tanımı.md` | PM orijinal brief |
+| Bu dosya | Ana sistem özeti |
+| `calisma-notlari/projeyi-yeniden-calistirma.md` | Cold start |
+| `calisma-notlari/telegram-yeni-komutu.md` | `/yeni` kurulum notu |
+| `yol-haritasi-onay-gorsel-yayin.md` | Onay/görsel/yayın |
+| `karsilasilan-problemler.md` / `cozum-notlari.md` | Problem & çözüm |
+| `../proje-plani.md` | Faz planı |
+| `../proje-tanımı.md` | PM brief |

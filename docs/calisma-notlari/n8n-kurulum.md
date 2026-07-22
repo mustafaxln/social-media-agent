@@ -47,4 +47,6 @@ Local n8n'de Telegram Trigger için HTTPS gerekir:
 2. `.env` içine: `WEBHOOK_URL=https://xxxx.trycloudflare.com/`
 3. `docker compose up -d` (yeniden)
 
-Tünel URL değişirse `.env` güncelleyip n8n'i yeniden başlat.
+Tünel URL değişirse `.env` güncelleyip n8n'i yeniden başlat.  
+**Cold start (detaylı):** [`projeyi-yeniden-calistirma.md`](./projeyi-yeniden-calistirma.md)
+

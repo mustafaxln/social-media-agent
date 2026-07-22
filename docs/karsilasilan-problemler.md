@@ -22,7 +22,26 @@ Proje boyunca takıldığımız noktalar. Çözümler → [`cozum-notlari.md`](.
 | 16 | Tem 2026 | 4+ | ImgBB Internal upload error / limit | Görsel URL kaydı kırılıyor |
 | 17 | Tem 2026 | 4+ | Instagram Buffer: type (post/story/reel) zorunlu | createPost reddediliyor |
 | 18 | Tem 2026 | 4+ | Publish sonrası Update: `$json.content_id` undefined | status published olmuyor |
+| 19 | Tem 2026 | 4+ | cloudflared quick tunnel kapanınca / URL değişince Onayla çalışmıyor | WF-04 webhook ölü URL'ye bakıyor |
+| 20 | Tem 2026 | /yeni | Switch: `callbackQuery.id` exists tutmuyor | Callback dalı hiç çalışmıyor |
+| 21 | Tem 2026 | /yeni | Trigger'da yalnız `callback_query` iken `/yeni` execution açmıyor | Manuel giriş tetiklenmiyor |
+| 22 | Tem 2026 | /yeni | Aynı botta 2. Telegram Trigger uyarısı / riski | Webhook çakışması |
+| 23 | Tem 2026 | /yeni | `can't parse entities` (byte offset …) Send Message | Taslak Telegram'a gitmiyor |
+| 24 | Tem 2026 | /yeni | `/yeni` DM'de çalışıyor, **grupta** tetiklenmiyor | Grupta manuel giriş yok |
 
-## Özet
+## Özet (temalar)
 
-n8n item taşıma, duplicate sırası, local HTTPS webhook, görsel host, Buffer IG metadata, HTTP sonrası expression referansı.
+1. **n8n veri taşıma** — Insert sonrası alan kaybı, `$('Node').first()`, HTTP sonrası `$json` ezilmesi  
+2. **RSS duplicate** — sıra ve doğru source node  
+3. **Local Telegram** — HTTPS tunnel, tek Trigger, `message`+`callback_query`, URL yenileme  
+4. **Payload şekli** — callback çoğu zaman kökte `data` (nested `callbackQuery` yok)  
+5. **Görsel / yayın** — ImgBB→Cloudinary, Buffer IG metadata  
+6. **UX** — Parse Mode / Attribution entity hatası; grup vs DM  
+
+## Dönemsel hikâye (kısa)
+
+- **Faz 2–3:** Manuel AI + Data Table + Telegram grup; kanal yerine grup.  
+- **Faz 4:** RSS + duplicate tuzakları.  
+- **Faz 5:** Error WF bağlama ve Code ile hata parse.  
+- **Faz A–D:** Buton onayı, tunnel, görsel, Buffer.  
+- **Final UX:** PM isteği → n8n Edit Fields yerine `/yeni` DM; WF-04 hub.  

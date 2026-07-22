@@ -10,6 +10,8 @@ Bu dosyadaki 3 bloğu sırayla n8n AI Agent node'una kopyala yapıştır yap.
 
 **Memory ve Tool:** Boş bırak — bu workflow'da gerek yok.
 
+**Giriş (final):** Alanlar n8n Edit Fields’tan değil; Telegram DM `/yeni` → WF-04 Parse → **Execute Workflow** ile gelir (`topic`, `platform`, `target_audience`, `tone`). Detay → [`docs/calisma-notlari/telegram-yeni-komutu.md`](../docs/calisma-notlari/telegram-yeni-komutu.md)
+
 ---
 
 ## BÖLÜM 1 — System Message
@@ -46,7 +48,8 @@ KURALLAR:
 
 AI Agent → User Message → **Expression** moduna geç → aşağıdakini yapıştır.
 
-Set Node'dan gelen alanları AI'a iletir.
+Set Node / Execute Workflow’dan gelen alanları AI'a iletir.
+
 
 ```
 Konu: {{ $json.topic }}

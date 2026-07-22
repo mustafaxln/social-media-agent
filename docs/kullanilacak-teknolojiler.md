@@ -14,6 +14,8 @@
 | Webrazzi RSS | Kaynak feed |
 | cloudflared | Local HTTPS webhook (Telegram Trigger) |
 
+**Telegram kullanım ayrımı:** `/yeni` → bot **DM**; taslak/onay butonları → **grup**.
+
 ## Seçim gerekçeleri
 
 | Teknoloji | Neden |
@@ -34,3 +36,6 @@
 | Native LinkedIn + IG Graph API | Buffer ile sadeleştirildi |
 | Zapier / Make | Self-hosted n8n tercih |
 | Tek onay + direkt yayın | 2 kademeli onay (görsel kontrolü) |
+| n8n Edit Fields ile günlük manuel | Telegram DM `/yeni` (PM) |
+| Grupta `/yeni` | DM (grup tetikleme güvenilir değil) |
+| Cloudflare quick tunnel (kalıcı) | Named Tunnel / VPS — sonraya |

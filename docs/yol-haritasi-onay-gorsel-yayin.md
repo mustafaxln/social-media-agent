@@ -1,58 +1,49 @@
-# Yol Haritası — Onay + Görsel + Yayın
+# Yol Haritası — Onay + Görsel + Yayın (+ `/yeni`)
 
-> **Durum:** Tamamlandı (üretim → 2 kademeli onay → Cloudinary → Buffer → LI/IG)  
-> **Kaynak:** PM görüşmesi + manuel hat  
-> **Kural:** Başarılı checkpoint → git commit
+> **Durum:** Tamamlandı  
+> **Kapsam:** 2 kademeli onay → Cloudinary → Buffer + Telegram DM `/yeni` ile manuel üretim
 
 ## Final akış
 
 ```
-WF-01 Manuel (konu + platform biz)  ─┐
-WF-02 RSS (platform AI)             ─┤
-                                     ▼
-              Insert waiting_approval
-              Telegram taslak [Onayla | Reddet]
-                     │
-        ┌────────────┴────────────┐
-        │ reject                  │ approve
-        ▼                         ▼
-   status=rejected         status=approved
-   DUR                     OpenAI Image (gpt-image-1-mini)
-                           Cloudinary → image_url
-                           Telegram FINAL (foto+caption)
-                                [Yayınla | İptal]
-                           │
-                ┌──────────┴──────────┐
-                │ cancel              │ publish
-                ▼                     ▼
-         preview_rejected      Buffer (platform channel)
-         DUR                   LinkedIn veya Instagram
-                               status=published
+Telegram DM /yeni ──► WF-04 ──► Execute WF-01 ─┐
+WF-02 RSS ────────────────────────────────────┤
+                                              ▼
+                         Insert waiting_approval
+                         Grup taslak [Onayla | Reddet]
+                                │
+                   ┌────────────┴────────────┐
+                   │ reject                  │ approve
+                   ▼                         ▼
+              rejected                Image + Cloudinary
+                                      FINAL [Yayınla | İptal]
+                                         │
+                              ┌──────────┴──────────┐
+                              │ cancel              │ publish
+                              ▼                     ▼
+                       preview_rejected      Buffer → LI/IG
+                                             published
 ```
 
-## Kullanılan servisler
+## Servisler
 
 | Servis | Rol |
 |--------|-----|
-| OpenAI gpt-image-1-mini | Görsel |
-| Cloudinary (unsigned preset) | image_url saklama |
-| Buffer Free API (GraphQL) | LI / IG yayın |
-| cloudflared + WEBHOOK_URL | WF-04 Telegram Trigger (local) |
+| Telegram | DM `/yeni`, grup onay, HATA |
+| OpenAI Image mini | Görsel |
+| Cloudinary | image_url |
+| Buffer GraphQL | Yayın |
+| cloudflared | Local webhook |
 
-## WF-04 callback sözleşmesi
+## WF-04 giriş
 
-| data | Sonuç |
-|------|--------|
-| `approve:ID` | Görsel + final Telegram |
-| `reject:ID` | rejected |
-| `publish:ID` | Buffer → published |
-| `cancel:ID` | preview_rejected |
+| Kaynak | route | Sonuç |
+|--------|-------|--------|
+| Buton callback | `callback` | approve/reject/publish/cancel |
+| `/yeni` mesajı | `yeni` | Parse → WF-01 |
 
-## Error handling (yeni hat)
+## Error / fallback
 
-- WF-04 → Error Workflow = **WF-03** ✅
-- Retry On Fail: Image, Cloudinary, Buffer, Telegram ✅
-- İnsan fallback: kötü görsel → **İptal**; yanlış taslak → **Reddet**
-- Ağır otomatik fallback (yedek RSS / template) — yok (bilinçli)
+- WF-04 → WF-03 ✅ · Retry ✅ · İnsan Reddet/İptal ✅  
 
-Detay → [`calisma-notlari/checkpoint-4-buffer-yayin.md`](./calisma-notlari/checkpoint-4-buffer-yayin.md) · [`calisma-notlari/error-handling-wf04.md`](./calisma-notlari/error-handling-wf04.md)
+Detay: [`calisma-notlari/telegram-yeni-komutu.md`](./calisma-notlari/telegram-yeni-komutu.md) · [`checkpoint-4-buffer-yayin.md`](./calisma-notlari/checkpoint-4-buffer-yayin.md)

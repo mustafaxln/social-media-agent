@@ -17,5 +17,6 @@ Projede adım adım yapılan işler.
 | [checkpoint-3-6-image-url.md](./checkpoint-3-6-image-url.md) | Cloudinary image_url | ✅ |
 | [checkpoint-4-buffer-yayin.md](./checkpoint-4-buffer-yayin.md) | Buffer LI/IG yayın | ✅ |
 | [error-handling-wf04.md](./error-handling-wf04.md) | WF-04 error / retry / fallback | ✅ |
+| [telegram-yeni-komutu.md](./telegram-yeni-komutu.md) | `/yeni` DM + WF-04 hub | ✅ |
 
 Problem ve çözüm özeti → [`../karsilasilan-problemler.md`](../karsilasilan-problemler.md), [`../cozum-notlari.md`](../cozum-notlari.md)

@@ -2,32 +2,36 @@
 
 | Tarih | Konu | Not |
 |-------|------|-----|
-| Haz–Tem 2026 | Docker + n8n | `docker compose up -d`; veri `n8n_data` volume'da; credential'lar instance'ta |
-| Tem 2026 | AI Agent | System + User + Structured Output; Memory/Tool bu projede boş |
-| Tem 2026 | Model | `gpt-4o-mini` yeterli ve ucuz |
-| Tem 2026 | AI çıktısı | Bazen `$json.output` altında; Code'da `item.output \|\| item` |
-| Tem 2026 | Data Table | Insert row mapping; status `waiting_approval` |
-| Tem 2026 | Duplicate | **If row doesn't exist** > Get Row + IF (veri taşır) |
-| Tem 2026 | Item referansı | `$('Node').first()` = o node'un ilk item'ı (çok item varsa tehlikeli); Limit(1) sonrası `.first()` güvenli |
-| Tem 2026 | Telegram | Bot + grup; Chat ID negatif; mesajı Code'da üret |
-| Tem 2026 | Human-in-the-loop | Telegram taslak + manuel onay; status tabloda bekler |
-| Tem 2026 | RSS | Webrazzi feed; alan map: title, description, url, published_at, source_name |
-| Tem 2026 | Platform seçimi | WF-1: Set'te elle; WF-2: AI içeriğe göre LinkedIn/Instagram |
-| Tem 2026 | Error Trigger | Ana WF Settings'te bağla + error WF Active; payload `execution.*` / `workflow.*` |
-| Tem 2026 | Retry | Node Settings → Retry On Fail (3 × 2000 ms) — AI, Telegram, RSS |
-| Tem 2026 | Hashtag | Tire ve Türkçe özel karakter kullanma |
-| Tem–Tem 2026 | Buffer | GraphQL createPost; IG için type=post; Free 3 kanal / 10 kuyruk |
-| Tem 2026 | Cloudinary | ImgBB yerine unsigned upload; secure_url |
-| Tem 2026 | 2 kademeli onay | Taslak onay → görsel → final onay → yayın |
-| Tem 2026 | İnsan fallback | Kötü görsel/taslak Telegram Reddet/İptal |
-| Tem 2026 | cloudflared | Local Telegram Trigger için HTTPS; WEBHOOK_URL + docker restart |
+| Haz–Tem 2026 | Docker + n8n | `docker compose up -d`; veri `n8n_data`; `down -v` yasak |
+| Tem 2026 | AI Agent | System + User + Structured Output |
+| Tem 2026 | Model | `gpt-4o-mini` / görsel `gpt-image-1-mini` |
+| Tem 2026 | AI çıktısı | `item.output \|\| item` |
+| Tem 2026 | Data Table | status `waiting_approval` … `published` |
+| Tem 2026 | Duplicate | If row doesn't exist > Get Row+IF |
+| Tem 2026 | `$('Node').first()` | Çok item’da tehlikeli; Limit(1) sonrası OK |
+| Tem 2026 | Telegram grup | Chat ID `-100…`; Attribution OFF |
+| Tem 2026 | Human-in-the-loop | 2 kademeli onay |
+| Tem 2026 | RSS | Webrazzi |
+| Tem 2026 | Platform | Manuel: kullanıcı; RSS: AI |
+| Tem 2026 | Error Trigger | Active + Settings bağla |
+| Tem 2026 | Retry On Fail | Kritik API node’ları |
+| Tem 2026 | Buffer | IG `type=post`; Free kota |
+| Tem 2026 | Cloudinary | ImgBB yerine |
+| Tem 2026 | cloudflared | Quick tunnel URL değişir → WEBHOOK_URL yenile |
+| Tem 2026 | Tek Telegram Trigger | Bot başına 1 webhook; hub = WF-04 |
+| Tem 2026 | Callback payload | Çoğu zaman kökte `data`, nested `callbackQuery` yok |
+| Tem 2026 | `/yeni` | DM güvenilir; grup değil |
+| Tem 2026 | parse entities | Attribution/Parse Mode AI metnini bozar |
+| Tem 2026 | Execute Workflow | WF-01 input schema: 4 string alan |
 
-## Kavramlar (pratik karşılık)
+## Kavramlar
 
 | Kavram | Bu projedeki karşılığı |
 |--------|------------------------|
-| Human-in-the-loop | Telegram taslak → insan okur/onaylar |
-| Retry | Geçici API/Telegram hatalarında otomatik tekrar |
-| Fail-safe | WF-03 Error Handling |
-| Duplicate control | `source_url` ile tekrar üretimi engelleme |
-| Structured output | AI'dan sabit JSON şema |
+| Human-in-the-loop | Telegram onay butonları |
+| Workflow hub | WF-04 tek Telegram girişi |
+| Sub-workflow | Execute → WF-01 |
+| Retry / fail-safe | Retry On Fail + WF-03 |
+| Duplicate control | `source_url` |
+| Structured output | AI JSON şema |
+| Webhook tunnel | cloudflared → WEBHOOK_URL |

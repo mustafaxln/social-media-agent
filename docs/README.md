@@ -1,49 +1,48 @@
 # Proje Dokümantasyonu
 
-## Başlangıç noktası
+## Nereden başlamalı?
 
-→ **[`sistem-dokumantasyonu.md`](./sistem-dokumantasyonu.md)** — uçtan uca sistem özeti
+1. **[`proje-final-ozeti.md`](./proje-final-ozeti.md)** — ne yaptık / takıldık / çözdük (tek sayfa)  
+2. **[`sistem-dokumantasyonu.md`](./sistem-dokumantasyonu.md)** — sistem nedir, nasıl akar  
+3. **[`calisma-notlari/projeyi-yeniden-calistirma.md`](./calisma-notlari/projeyi-yeniden-calistirma.md)** — nasıl ayağa kaldırırım  
+4. **[`karsilasilan-problemler.md`](./karsilasilan-problemler.md)** + **[`cozum-notlari.md`](./cozum-notlari.md)** — detaylı problem & çözüm  
 
 ## Ana dosyalar
 
 | Dosya | İçerik |
 |-------|--------|
-| [sistem-dokumantasyonu.md](./sistem-dokumantasyonu.md) | Mimari, WF’ler, servisler, status |
-| [proje-amaci.md](./proje-amaci.md) | Amaç ve kapsam |
-| [yol-haritasi-onay-gorsel-yayin.md](./yol-haritasi-onay-gorsel-yayin.md) | Onay + görsel + Buffer yayın (final) |
+| [sistem-dokumantasyonu.md](./sistem-dokumantasyonu.md) | Mimari, WF’ler, `/yeni`, servisler |
+| [proje-final-ozeti.md](./proje-final-ozeti.md) | Kapanış özeti: yaptık / takıldık / çözdük |
+| [proje-amaci.md](./proje-amaci.md) | Amaç ve kapsam (final) |
+| [yol-haritasi-onay-gorsel-yayin.md](./yol-haritasi-onay-gorsel-yayin.md) | Onay + görsel + yayın + `/yeni` |
 | [kullanilacak-teknolojiler.md](./kullanilacak-teknolojiler.md) | Stack |
-| [planlanan-workflow-yapisi.md](./planlanan-workflow-yapisi.md) | WF-01…04 |
+| [planlanan-workflow-yapisi.md](./planlanan-workflow-yapisi.md) | WF-01…04 final |
 | [akis-semasi.md](./akis-semasi.md) | Mermaid |
 | [data-table-yapisi.md](./data-table-yapisi.md) | Tablolar + status |
-| [karsilasilan-problemler.md](./karsilasilan-problemler.md) | Problemler |
-| [cozum-notlari.md](./cozum-notlari.md) | Çözümler |
+| [karsilasilan-problemler.md](./karsilasilan-problemler.md) | 24 problem |
+| [cozum-notlari.md](./cozum-notlari.md) | 24 çözüm |
 | [ogrenilen-bilgiler.md](./ogrenilen-bilgiler.md) | Öğrenilenler |
 | [ogrenilecek-kavramlar.md](./ogrenilecek-kavramlar.md) | Checklist |
-| [ekran-goruntuleri/](./ekran-goruntuleri/) | Screenshot’lar + çekim listesi |
+| [ekran-goruntuleri/](./ekran-goruntuleri/) | Screenshot listesi |
 
 ## Çalışma notları
 
-[`calisma-notlari/`](./calisma-notlari/) — faz / checkpoint notları  
+[`calisma-notlari/`](./calisma-notlari/)
 
-**Yeniden çalıştırma:** [`calisma-notlari/projeyi-yeniden-calistirma.md`](./calisma-notlari/projeyi-yeniden-calistirma.md)
+Öne çıkanlar:
+- [projeyi-yeniden-calistirma.md](./calisma-notlari/projeyi-yeniden-calistirma.md) — cold start  
+- [telegram-yeni-komutu.md](./calisma-notlari/telegram-yeni-komutu.md) — `/yeni`  
+- [faz-6-final.md](./calisma-notlari/faz-6-final.md) — kapanış  
 
 ## Plan / PM
 
 - [`../proje-plani.md`](../proje-plani.md)
 - [`../proje-tanımı.md`](../proje-tanımı.md)
 
-## Export’lar (repo kökü)
+## Export / prompt / şablon
 
-| Dosya | WF |
-|--------|-----|
-| `WF-01 Manuel İçerik Üretme.json` | Manuel |
-| `WF-02 Kaynaktan İçerik Üretme.json` | RSS |
-| `WF-03 Error Handling.json` | Error |
-| `WF-04 …json` | Onay/yayın — n8n’den export edilmeli |
-
-## Prompt’lar
-
-| Dosya | WF |
-|--------|-----|
-| `prompts/manuel-icerik-prompt.md` | WF-01 |
-| `prompts/kaynaktan-icerik-prompt.md` | WF-02 |
+| Tür | Yol |
+|-----|-----|
+| WF export | Repo kökü `WF-0x…json` |
+| Prompt | `prompts/manuel-icerik-prompt.md`, `kaynaktan-icerik-prompt.md` |
+| `/yeni` pin | `templates/telegram/yeni-komut-sablonu.md` |

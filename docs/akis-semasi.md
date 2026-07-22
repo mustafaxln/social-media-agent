@@ -4,30 +4,33 @@
 
 ```mermaid
 flowchart TD
-    A[WF-01 Manuel / WF-02 RSS] --> B[Insert waiting_approval]
-    B --> C[Telegram taslak Onayla/Reddet]
+    Y["/yeni DM"] --> H[WF-04 Hub]
+    R[WF-02 RSS] --> B[Insert waiting_approval]
+    H -->|yeni| W1[WF-01 AI + Insert]
+    W1 --> B
+    B --> C[Telegram grup Onayla/Reddet]
     C --> D{1. Onay}
-    D -->|Reddet| R[rejected]
+    D -->|Reddet| RJ[rejected]
     D -->|Onayla| E[Image + Cloudinary]
-    E --> F[Telegram FINAL Yayınla/İptal]
+    E --> F[FINAL Yayınla/İptal]
     F --> G{2. Onay}
     G -->|İptal| P[preview_rejected]
-    G -->|Yayınla| H[Buffer LI/IG]
-    H --> I[published]
-    A -.->|Hata| E3[WF-03]
+    G -->|Yayınla| BUF[Buffer LI/IG]
+    BUF --> I[published]
+    H -->|callback| C
+    W1 -.->|Hata| E3[WF-03]
     E -.->|Hata| E3
-    H -.->|Hata| E3
+    BUF -.->|Hata| E3
 ```
 
-## Workflow 1 — Manuel İçerik
+## Workflow 1 — Manuel (`/yeni` → Execute)
 
 ```mermaid
 flowchart TD
-    A[Manual Trigger] --> B[Set Node]
-    B --> C[AI Agent]
-    C --> D[Code / telegram_message]
+    A[Execute Workflow Trigger] --> C[AI Agent]
+    C --> D[Code telegram_message]
     D --> E[Data Table]
-    E --> F[Telegram buton]
+    E --> F[Telegram grup buton]
 ```
 
 ## Workflow 2 — Kaynaktan İçerik
@@ -53,19 +56,22 @@ flowchart TD
     C --> D[Telegram HATA]
 ```
 
-WF-01, WF-02, WF-04 → Error Workflow = WF-03.
-
-## Workflow 4 — Onay + Görsel + Yayın
+## Workflow 4 — Telegram Hub
 
 ```mermaid
 flowchart TD
-    A[Telegram Callback] --> B{action}
-    B -->|reject| R[rejected]
-    B -->|cancel| C[preview_rejected]
-    B -->|approve| G[Image + Cloudinary]
-    G --> F[Final Telegram]
-    B -->|publish| P[Buffer LI/IG]
-    P --> S[published]
+    A[Telegram Trigger] --> G[Giris Ayir]
+    G --> S{route}
+    S -->|yeni| P[Parse /yeni]
+    P --> E[Execute WF-01]
+    S -->|callback| CP[Callback Parse]
+    CP --> A2{action}
+    A2 -->|reject| R[rejected]
+    A2 -->|cancel| C[preview_rejected]
+    A2 -->|approve| IM[Image + Cloudinary]
+    IM --> F[Final Telegram]
+    A2 -->|publish| B[Buffer LI/IG]
+    B --> Pub[published]
 ```
 
 ## 2 Kademeli Onay

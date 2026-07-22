@@ -1,11 +1,13 @@
 # Sosyal Medya İçerik Ajansı — Proje Planı
 
 > **Başlangıç:** 30 Haz 2026  
-> **Bitiş:** Tem 2026 (onay + görsel + Buffer yayın dahil)  
-> **Durum:** Tamamlandı  
+> **Bitiş:** Tem 2026 (onay + görsel + Buffer + `/yeni` DM)  
+> **Durum:** Final / Tamamlandı  
 
-Ana sistem özeti → [`docs/sistem-dokumantasyonu.md`](./docs/sistem-dokumantasyonu.md)  
-Onay/görsel/yayın → [`docs/yol-haritasi-onay-gorsel-yayin.md`](./docs/yol-haritasi-onay-gorsel-yayin.md)
+Ana sistem → [`docs/sistem-dokumantasyonu.md`](./docs/sistem-dokumantasyonu.md)  
+Yeniden çalıştırma → [`docs/calisma-notlari/projeyi-yeniden-calistirma.md`](./docs/calisma-notlari/projeyi-yeniden-calistirma.md)  
+Problem/çözüm → [`docs/karsilasilan-problemler.md`](./docs/karsilasilan-problemler.md) · [`docs/cozum-notlari.md`](./docs/cozum-notlari.md)
+
 
 Bu dosya projenin ana planıdır. Her faz tamamlandıkça `[x]` işaretlenir.
 
@@ -26,6 +28,7 @@ Yaptıkça yazdığımız notlar → [`docs/calisma-notlari/`](./docs/calisma-no
 | 5 | Error handling + retry / fallback | | 20 Tem 2026 | |
 | 6 | Final dokümantasyon | | Tem 2026 | |
 | A–D | Telegram onay + görsel + Buffer yayın (WF-04) | | Tem 2026 | |
+| E | `/yeni` DM manuel giriş (WF-04 hub) | | Tem 2026 | |
 
 ---
 
@@ -186,13 +189,14 @@ Detay → `docs/calisma-notlari/faz-6-final.md`
 - [x] Kaynaktan içerik üretim workflow'u
 - [x] Error handling workflow'u
 - [x] WF-04: 2 kademeli Telegram onay + görsel + Buffer yayın
+- [x] Telegram DM `/yeni` ile n8n’siz manuel giriş
 - [x] Data Table yapıları (`contents` + `errors`; logs tablosu hazır)
 - [x] Telegram bildirim / onay sistemi
 - [x] En az 2 platform için içerik üretimi + yayın
 - [x] Duplicate kontrolü
 - [x] Retry senaryosu
-- [x] Proje dokümantasyonu + akış şeması
-
+- [x] Proje dokümantasyonu + akış şeması + cold-start rehberi
+- [x] Problem / çözüm listesi (24 madde)
 ---
 
 ## İlerleme Takibi
@@ -207,11 +211,13 @@ Detay → `docs/calisma-notlari/faz-6-final.md`
 | 5 — Error handling | Tamamlandı | 20 Tem 2026 |
 | 6 — Final dokümantasyon | Tamamlandı | Tem 2026 |
 | A–D — Onay / görsel / Buffer (WF-04) | Tamamlandı | Tem 2026 |
+| E — `/yeni` DM manuel giriş | Tamamlandı | Tem 2026 |
 
 ---
 
 ## Notlar
 
-- **Platform seçimi:** LinkedIn ve Instagram
-- Brand voice, içerik takvimi, multi-agent vb. → [`docs/proje-amaci.md`](./docs/proje-amaci.md#sonradan-eklenebilecek-özellikler)
-- **Sonraki aşama (tamamlandı):** Telegram 2 kademeli onay + Cloudinary görsel + Buffer LI/IG → [`docs/yol-haritasi-onay-gorsel-yayin.md`](./docs/yol-haritasi-onay-gorsel-yayin.md) · [`docs/sistem-dokumantasyonu.md`](./docs/sistem-dokumantasyonu.md)
+- **Platform seçimi:** LinkedIn ve Instagram  
+- **Manuel giriş:** Bot DM `/yeni` (grup değil); taslak gruba düşer → [`docs/calisma-notlari/telegram-yeni-komutu.md`](./docs/calisma-notlari/telegram-yeni-komutu.md)  
+- Brand voice, takvim, multi-agent → [`docs/proje-amaci.md`](./docs/proje-amaci.md)  
+- Onay/görsel/yayın → [`docs/yol-haritasi-onay-gorsel-yayin.md`](./docs/yol-haritasi-onay-gorsel-yayin.md) · [`docs/sistem-dokumantasyonu.md`](./docs/sistem-dokumantasyonu.md)

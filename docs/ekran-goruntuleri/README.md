@@ -19,15 +19,17 @@ Aşağıdaki mevcut dosyalar erken dönem (Faz 2–3) testleridir. Final sistem 
 Dosyaları bu klasöre koy; tabloyu güncelle.
 
 ### Workflow canvas
-- [ ] `wf-01-canvas.png` — WF-01 tam akış
+- [ ] `wf-01-canvas.png` — Execute Trigger → AI → Insert → Telegram
 - [ ] `wf-02-canvas.png` — RSS → Duplicate → Limit → … → Telegram
 - [ ] `wf-03-canvas.png` — Error Trigger → Code → Insert → Telegram
-- [ ] `wf-04-canvas.png` — Switch (approve/reject/publish/cancel) + Image + Cloudinary + Buffer
+- [ ] `wf-04-canvas.png` — Giris Ayir → Switch (yeni/callback) + Image + Cloudinary + Buffer
 
 ### Telegram
-- [ ] `telegram-taslak-buton.png` — Onayla / Reddet
+- [ ] `telegram-yeni-dm.png` — `/yeni` şablon mesajı (DM)
+- [ ] `telegram-taslak-buton.png` — Onayla / Reddet (grup)
 - [ ] `telegram-final-foto.png` — Final foto + Yayınla / İptal
 - [ ] `telegram-hata.png` — WF-03 HATA mesajı
+- [ ] `telegram-pin-sablon.png` — Gruba pinlenen `/yeni` şablonu
 
 ### Data Table
 - [ ] `datatable-waiting.png` — waiting_approval satırı

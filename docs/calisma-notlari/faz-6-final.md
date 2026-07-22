@@ -1,26 +1,32 @@
 # Faz 6 — Final Dokümantasyon
 
-**Durum:** Tamamlandı (Tem 2026 — onay/görsel/yayın sonrası)
+**Durum:** ✅ Final (Tem 2026 — `/yeni` dahil)
 
 ## Yapılanlar
 
-- [x] Ana sistem dokümanı → `docs/sistem-dokumantasyonu.md`
-- [x] Yol haritası final akış
-- [x] Data Table status + image_url
-- [x] Problem / çözüm listesi (18 madde)
-- [x] Teknolojiler, akış şeması, workflow yapısı
-- [x] Error handling WF-04 notları
-- [x] Ekran görüntüsü çekim listesi (otomatik screenshot yok — local n8n erişilemez)
+- [x] Ana sistem dokümanı (hub + `/yeni` + onay/yayın)
+- [x] Problem listesi 24 madde + çözüm notları
+- [x] Akış şeması, workflow yapısı, yol haritası, amaç, teknolojiler
+- [x] Cold start rehberi → `projeyi-yeniden-calistirma.md`
+- [x] `/yeni` kurulum notu → `telegram-yeni-komutu.md`
+- [x] Pin şablonu → `templates/telegram/yeni-komut-sablonu.md`
+- [x] Ekran görüntüsü çekim listesi (otomatik shot yok)
+
+## Final ürün özeti
+
+| Özellik | Durum |
+|---------|--------|
+| RSS + duplicate + Schedule | ✅ |
+| Manuel `/yeni` DM | ✅ |
+| 2 kademeli Telegram onay | ✅ |
+| Görsel + Cloudinary + Buffer LI/IG | ✅ |
+| Error WF-03 + Retry | ✅ |
+| Yeniden çalıştırma dokümanı | ✅ |
 
 ## Export hatırlatması
 
-Kullanıcı n8n’den güncel export almalı:
+n8n’den güncel JSON al (özellikle WF-01 Execute Trigger + WF-04 hub) → repo köküne koy.
 
-- WF-01, WF-02 (butonlu)
-- WF-03
-- **WF-04** (tam onay/görsel/Buffer hattı)
+## Bilinçli bırakılanlar
 
-## Ekran görüntüleri
-
-Mevcut: erken Faz 2–3 screenshot’ları.  
-Final liste: `docs/ekran-goruntuleri/README.md`
+Named Tunnel/VPS, grup `/yeni`, execution_logs insert, PM §15–16.
