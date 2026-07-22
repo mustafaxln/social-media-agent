@@ -109,7 +109,32 @@
       "parameters": {
         "chatId": "-1004488708928",
         "text": "={{ $('Telegram Mesajı Oluştur').item.json.telegram_message }}",
-        "additionalFields": {}
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Onayla",
+                    "additionalFields": {
+                      "callback_data": "=approve:{{ $json.id }}"
+                    }
+                  },
+                  {
+                    "text": "Reddet",
+                    "additionalFields": {
+                      "callback_data": "=reject:{{ $json.id }}"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
       },
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
@@ -406,7 +431,7 @@
     "errorWorkflow": "5YD050ZxhzeHIDyd",
     "callerPolicy": "workflowsFromSameOwner"
   },
-  "versionId": "3bf0a5a3-72fa-42b7-897e-cbba77731da6",
+  "versionId": "450de7b6-d624-4223-9ea8-65c0310ad55e",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "5387abe0532c44e66001f3e780de83667825ca1428bc9bf3beffe6a8a965a742"

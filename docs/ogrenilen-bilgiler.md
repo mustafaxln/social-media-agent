@@ -16,7 +16,11 @@
 | Tem 2026 | Error Trigger | Ana WF Settings'te bağla + error WF Active; payload `execution.*` / `workflow.*` |
 | Tem 2026 | Retry | Node Settings → Retry On Fail (3 × 2000 ms) — AI, Telegram, RSS |
 | Tem 2026 | Hashtag | Tire ve Türkçe özel karakter kullanma |
-| Tem 2026 | Expression | fx açıkken `={{ }}` değil `{{ }}`; `$('Ad')` node adıyla birebir |
+| Tem–Tem 2026 | Buffer | GraphQL createPost; IG için type=post; Free 3 kanal / 10 kuyruk |
+| Tem 2026 | Cloudinary | ImgBB yerine unsigned upload; secure_url |
+| Tem 2026 | 2 kademeli onay | Taslak onay → görsel → final onay → yayın |
+| Tem 2026 | İnsan fallback | Kötü görsel/taslak Telegram Reddet/İptal |
+| Tem 2026 | cloudflared | Local Telegram Trigger için HTTPS; WEBHOOK_URL + docker restart |
 
 ## Kavramlar (pratik karşılık)
 

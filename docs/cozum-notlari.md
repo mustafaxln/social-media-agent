@@ -18,7 +18,10 @@ Problem listesi → [`karsilasilan-problemler.md`](./karsilasilan-problemler.md)
 | 12 | Error alanları boş | Set yerine **Code** (`Hata Mesaji`): `execution.lastNodeExecuted`, `execution.error.message` | Nested path'ler Code'da güvenli |
 | 13 | Referenced node doesn't exist | `$('...')` birebir node adı; veya Code ile `telegram_message` üret | Node adını yeniden adlandırarak da çözülür |
 | 14 | Kod Telegram'a gidiyor | JS sadece Code node'a; Telegram'a yalnızca `telegram_message` expression | Text ≠ JavaScript |
-| 15 | Telegram Trigger HTTPS | `cloudflared tunnel --url http://localhost:5678` + `.env` `WEBHOOK_URL` + `docker compose up -d` | Tünel URL değişince env + restart |
+| 15 | Telegram Trigger HTTPS | `cloudflared tunnel` + `.env` `WEBHOOK_URL` + `docker compose up -d` | Tünel URL değişince env + restart |
+| 16 | ImgBB limit/error | **Cloudinary** unsigned preset + Form-Data `file` + `upload_preset` | `secure_url` → image_url |
+| 17 | Instagram type zorunlu | `metadata.instagram { type: post, shouldShareToFeed: true }` | LinkedIn'de metadata gerekmez |
+| 18 | content_id kaybı | Update Match: `$('Callback Parse').item.json.content_id` | Buffer HTTP `$json`'u ezer |
 
 ## Tekrar kullanılacak kalıplar
 
@@ -36,4 +39,9 @@ Error Trigger → Code (parse) → Insert errors → Telegram HATA
 
 ```
 Telegram buton → WF-04 Trigger (callback) → Update status approved/rejected
+```
+
+```
+approve → Image → Cloudinary → final Telegram [publish|cancel]
+publish → Get row → Buffer GraphQL → status published
 ```

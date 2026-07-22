@@ -1,0 +1,1408 @@
+{
+  "name": "WF-04 Telegram Onay",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "callback_query"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        32
+      ],
+      "id": "f215180d-4c83-44f9-bfed-2dbfc87d3a7d",
+      "name": "Telegram Trigger",
+      "webhookId": "a5c52b7a-2164-41b7-a0ff-03ae8048e60f",
+      "credentials": {
+        "telegramApi": {
+          "id": "LHt46cuR23BuvjVH",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "6aT7H8YRsGUlIaWa",
+          "mode": "list",
+          "cachedResultName": "social_media_contents",
+          "cachedResultUrl": "/projects/dTrHtXVql3QtKgyf/datatables/6aT7H8YRsGUlIaWa"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyValue": "={{ $json.content_id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "status": "=approved"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "content",
+              "displayName": "content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "platform",
+              "displayName": "platform",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "category",
+              "displayName": "category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "target_audience",
+              "displayName": "target_audience",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "hashtags",
+              "displayName": "hashtags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "visual_idea",
+              "displayName": "visual_idea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "cta",
+              "displayName": "cta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "tone",
+              "displayName": "tone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "impact_score",
+              "displayName": "impact_score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "source_url",
+              "displayName": "source_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        640,
+        -96
+      ],
+      "id": "c77c4890-229e-4dc1-a5fd-685bcf3faef0",
+      "name": "Update row(s)"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "approved",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "f1703916-c4f0-4b3d-b238-1a09dde8ce85"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "4e01977d-6a38-4a59-bb28-41c431bd0a64",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "rejected",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "8fde56dd-1b89-4bf2-a358-fbd479dd7f41",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "publish",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ebf74def-e7ca-411d-92ab-6082c64e603d",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "cancel",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "b263313e-d314-40a0-baaf-a8f23d8dfe58",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "6aT7H8YRsGUlIaWa",
+          "mode": "list",
+          "cachedResultName": "social_media_contents",
+          "cachedResultUrl": "/projects/dTrHtXVql3QtKgyf/datatables/6aT7H8YRsGUlIaWa"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyValue": "={{ $json.content_id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "status": "=rejected"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "content",
+              "displayName": "content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "platform",
+              "displayName": "platform",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "category",
+              "displayName": "category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "target_audience",
+              "displayName": "target_audience",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "hashtags",
+              "displayName": "hashtags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "visual_idea",
+              "displayName": "visual_idea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "cta",
+              "displayName": "cta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "tone",
+              "displayName": "tone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "impact_score",
+              "displayName": "impact_score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "source_url",
+              "displayName": "source_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        640,
+        80
+      ],
+      "id": "3a905cad-cd0e-484d-81e7-3a5570360447",
+      "name": "Update row(s)1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json;\n\nconst cq = raw.callbackQuery || raw.callback_query || raw;\nconst data = cq.data || raw.data || '';\nconst parts = String(data).split(':');\nconst actionRaw = (parts[0] || '').trim();\nconst contentId = (parts[1] || '').trim();\n\nconst action =\n  actionRaw === 'approve' ? 'approved' :\n  actionRaw === 'reject' ? 'rejected' :\n  actionRaw === 'publish' ? 'publish' :\n  actionRaw === 'cancel' ? 'cancel' :\n  'unknown';\n\nreturn [{\n  json: {\n    action,\n    content_id: contentId,\n    callback_query_id: String(cq.id || raw.id || ''),\n    chat_id: cq.message?.chat?.id || raw.message?.chat?.id || '',\n    message_id: cq.message?.message_id || ''\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        32
+      ],
+      "id": "5142e677-3a12-4753-9b32-998802fac54a",
+      "name": "Callback Parse"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "modelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-image-1-mini"
+        },
+        "prompt": "=Create a social media illustration image.\n\nPlatform: {{ $json.platform }}\nVisual idea: {{ $json.visual_idea }}\nTopic: {{ $json.title }}\n\nStyle: clean, professional, modern, suitable for ecommerce brands.\nSimple composition, good lighting, high clarity.\nNo clutter.\n\nSTRICT RULES:\n- Do NOT put any text, letters, numbers, words, logos, watermarks, or captions on the image.\n- No typography, no posters with readable text, no UI screenshots with text.\n- Pure visual only: scene, objects, abstract shapes, or illustration.",
+        "options": {
+          "quality": "medium",
+          "size": "1024x1024"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        1056,
+        -96
+      ],
+      "id": "fbf7d220-7825-41ee-8a13-7593a889a421",
+      "name": "Generate an image",
+      "retryOnFail": true,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "openAiApi": {
+          "id": "pnMw55DJbPCItXTh",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "6aT7H8YRsGUlIaWa",
+          "mode": "list",
+          "cachedResultName": "social_media_contents",
+          "cachedResultUrl": "/projects/dTrHtXVql3QtKgyf/datatables/6aT7H8YRsGUlIaWa"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyValue": "={{ $('Callback Parse').item.json.content_id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "image_url": "={{ $json.secure_url }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "content",
+              "displayName": "content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "platform",
+              "displayName": "platform",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "category",
+              "displayName": "category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "target_audience",
+              "displayName": "target_audience",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "hashtags",
+              "displayName": "hashtags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "visual_idea",
+              "displayName": "visual_idea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "cta",
+              "displayName": "cta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "tone",
+              "displayName": "tone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "impact_score",
+              "displayName": "impact_score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "source_url",
+              "displayName": "source_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "image_url",
+              "displayName": "image_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1504,
+        -96
+      ],
+      "id": "642e5ef4-80e7-43a9-8c98-d639524e816a",
+      "name": "Update row(s)2"
+    },
+    {
+      "parameters": {
+        "operation": "sendPhoto",
+        "chatId": "-1004488708928",
+        "file": "={{ $('Cloudinary Upload').item.json.secure_url }}",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Yayınla",
+                    "additionalFields": {
+                      "callback_data": "=publish:{{ $('Callback Parse').item.json.content_id }}"
+                    }
+                  },
+                  {
+                    "text": "İptal",
+                    "additionalFields": {
+                      "callback_data": "=cancel:{{ $('Callback Parse').item.json.content_id }}"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "caption": "=FINAL POST — yayina hazir  Platform: {{ $('Get row').item.json.platform }}  {{ $('Get row').item.json.content }}  {{ Array.isArray($('Get row').item.json.hashtags) ? $('Get row').item.json.hashtags.join(' ') : $('Get row').item.json.hashtags }}"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1728,
+        -96
+      ],
+      "id": "bf534e12-4329-4f47-aa2f-23f2e56a424d",
+      "name": "Send a photo message",
+      "webhookId": "d95d2b57-9624-46cb-9dcc-3bb2a8fbff87",
+      "credentials": {
+        "telegramApi": {
+          "id": "LHt46cuR23BuvjVH",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "6aT7H8YRsGUlIaWa",
+          "mode": "list",
+          "cachedResultName": "social_media_contents",
+          "cachedResultUrl": "/projects/dTrHtXVql3QtKgyf/datatables/6aT7H8YRsGUlIaWa"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyValue": "={{ $('Callback Parse').item.json.content_id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        848,
+        -96
+      ],
+      "id": "ff17d74d-4446-429a-8cf9-27ec8996b99a",
+      "name": "Get row"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "6aT7H8YRsGUlIaWa",
+          "mode": "list",
+          "cachedResultName": "social_media_contents",
+          "cachedResultUrl": "/projects/dTrHtXVql3QtKgyf/datatables/6aT7H8YRsGUlIaWa"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyValue": "={{ $('Callback Parse').item.json.content_id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "status": "=published"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "content",
+              "displayName": "content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "platform",
+              "displayName": "platform",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "category",
+              "displayName": "category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "target_audience",
+              "displayName": "target_audience",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "hashtags",
+              "displayName": "hashtags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "visual_idea",
+              "displayName": "visual_idea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "cta",
+              "displayName": "cta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "tone",
+              "displayName": "tone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "impact_score",
+              "displayName": "impact_score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "source_url",
+              "displayName": "source_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1248,
+        272
+      ],
+      "id": "1fc22cb2-d54c-4c75-a418-c9fce054701c",
+      "name": "Update row(s)3"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "6aT7H8YRsGUlIaWa",
+          "mode": "list",
+          "cachedResultName": "social_media_contents",
+          "cachedResultUrl": "/projects/dTrHtXVql3QtKgyf/datatables/6aT7H8YRsGUlIaWa"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyValue": "={{ $json.content_id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "status": "=preview_rejected"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "content",
+              "displayName": "content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "platform",
+              "displayName": "platform",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "category",
+              "displayName": "category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "target_audience",
+              "displayName": "target_audience",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "hashtags",
+              "displayName": "hashtags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "visual_idea",
+              "displayName": "visual_idea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "cta",
+              "displayName": "cta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "tone",
+              "displayName": "tone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "impact_score",
+              "displayName": "impact_score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "source_url",
+              "displayName": "source_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        640,
+        432
+      ],
+      "id": "69911b09-3e39-4698-ae64-7b3dbb32ce37",
+      "name": "Update row(s)4"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first();\nconst binary = item.binary?.data;\n\nif (!binary) {\n  throw new Error('Binary data bulunamadi');\n}\n\nconst buffer = await this.helpers.getBinaryDataBuffer(0, 'data');\nconst base64 = Buffer.from(buffer).toString('base64');\n\nreturn [{\n  json: {\n    ...item.json,\n    image_base64: base64,\n    content_id: $('Callback Parse').first().json.content_id\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1232,
+        -400
+      ],
+      "id": "a4004fda-5ef7-4534-9972-b2af6e27dd92",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.imgbb.com/1/upload",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "ec0d6e2e218538cc32040df830cd973f"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "image",
+              "value": "={{ $json.image_base64 }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1392,
+        -400
+      ],
+      "id": "abfe3445-6308-4b1f-91e8-78d48100f439",
+      "name": "HTTP Request: ImgBB upload",
+      "retryOnFail": true,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "6aT7H8YRsGUlIaWa",
+          "mode": "list",
+          "cachedResultName": "social_media_contents",
+          "cachedResultUrl": "/projects/dTrHtXVql3QtKgyf/datatables/6aT7H8YRsGUlIaWa"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyValue": "={{ $('Callback Parse').item.json.content_id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        640,
+        272
+      ],
+      "id": "964ef62d-75e9-418a-96fb-4967628593a1",
+      "name": "Get row(s)"
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = $input.first().json;\n\nconst LINKEDIN_CHANNEL_ID = '6a6081ace2638b94d7b2a36b';\nconst INSTAGRAM_CHANNEL_ID = '6a608040e2638b94d7b29f29';\n\nconst hashtags = Array.isArray(d.hashtags)\n  ? d.hashtags.join(' ')\n  : String(d.hashtags || '');\n\nconst postText = `${d.content || ''}\\n\\n${hashtags}`.trim();\n\nconst platform = String(d.platform || '').toLowerCase();\nconst isInstagram = platform.includes('instagram');\nconst channelId = isInstagram ? INSTAGRAM_CHANNEL_ID : LINKEDIN_CHANNEL_ID;\n\nif (!d.image_url) {\n  throw new Error('image_url bos');\n}\n\n// Instagram zorunlu metadata; LinkedIn'de metadata yok\nconst metadataBlock = isInstagram\n  ? `\n      metadata: {\n        instagram: {\n          type: post\n          shouldShareToFeed: true\n        }\n      }`\n  : '';\n\nconst query = `\nmutation CreatePost {\n  createPost(\n    input: {\n      text: ${JSON.stringify(postText)}\n      channelId: ${JSON.stringify(channelId)}\n      schedulingType: automatic\n      mode: shareNow\n      ${metadataBlock}\n      assets: [{ image: { url: ${JSON.stringify(d.image_url)} } }]\n    }\n  ) {\n    ... on PostActionSuccess { post { id text } }\n    ... on MutationError { message }\n  }\n}`;\n\nreturn [{\n  json: {\n    query,\n    content_id: String(d.id || $('Callback Parse').first().json.content_id),\n    platform: d.platform,\n    channelId,\n    isInstagram\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        848,
+        272
+      ],
+      "id": "45e2a50a-13c7-4f37-ad56-48f7cc3411ce",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.buffer.com",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 0rJXq05GXwZYtTzt-g5I8Chtl-5LmW132dxI_dN8UII"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "={{ $json.query }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1056,
+        272
+      ],
+      "id": "b7166b31-6cad-4b53-a618-a2fc32827aed",
+      "name": "HTTP Request",
+      "retryOnFail": true,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.cloudinary.com/v1_1/togu5qva/image/upload",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "upload_preset",
+              "value": "n8n_unsigned"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1264,
+        -96
+      ],
+      "id": "4aeff2a1-40c8-4f64-9aba-2950394c175b",
+      "name": "Cloudinary Upload",
+      "retryOnFail": true,
+      "waitBetweenTries": 2000
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Callback Parse",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Update row(s)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update row(s)1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get row(s)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update row(s)4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Callback Parse": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row(s)": {
+      "main": [
+        [
+          {
+            "node": "Get row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate an image": {
+      "main": [
+        [
+          {
+            "node": "Cloudinary Upload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row(s)2": {
+      "main": [
+        [
+          {
+            "node": "Send a photo message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row": {
+      "main": [
+        [
+          {
+            "node": "Generate an image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a photo message": {
+      "main": [
+        []
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request: ImgBB upload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request: ImgBB upload": {
+      "main": [
+        []
+      ]
+    },
+    "Get row(s)": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Update row(s)3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cloudinary Upload": {
+      "main": [
+        [
+          {
+            "node": "Update row(s)2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row(s)3": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "5YD050ZxhzeHIDyd",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "ddcf633c-c296-4087-bc5c-32f77613f747",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5387abe0532c44e66001f3e780de83667825ca1428bc9bf3beffe6a8a965a742"
+  },
+  "nodeGroups": [],
+  "id": "0z88liPtvwUgbi9F",
+  "tags": []
+}

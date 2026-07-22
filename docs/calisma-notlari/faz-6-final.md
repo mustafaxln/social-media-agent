@@ -1,37 +1,26 @@
 # Faz 6 — Final Dokümantasyon
 
-**Durum:** Tamamlandı
+**Durum:** Tamamlandı (Tem 2026 — onay/görsel/yayın sonrası)
 
 ## Yapılanlar
 
-- [x] Workflow export: WF-01, WF-02, WF-03
-- [x] Karşılaşılan problemler (14 madde) → `docs/karsilasilan-problemler.md`
-- [x] Çözüm notları → `docs/cozum-notlari.md`
-- [x] Öğrenilen bilgiler → `docs/ogrenilen-bilgiler.md`
-- [x] Öğrenilecek kavramlar checklist → `docs/ogrenilecek-kavramlar.md`
-- [x] Akış şeması → `docs/akis-semasi.md`
-- [x] Data Table dokümanı güncel
-- [x] Proje planı kapatıldı → `proje-plani.md`
-- [x] Root `README.md`
-- [x] Ekran görüntüleri listesi (kısmi)
+- [x] Ana sistem dokümanı → `docs/sistem-dokumantasyonu.md`
+- [x] Yol haritası final akış
+- [x] Data Table status + image_url
+- [x] Problem / çözüm listesi (18 madde)
+- [x] Teknolojiler, akış şeması, workflow yapısı
+- [x] Error handling WF-04 notları
+- [x] Ekran görüntüsü çekim listesi (otomatik screenshot yok — local n8n erişilemez)
 
-## Export dosyaları
+## Export hatırlatması
 
-| Dosya | Açıklama |
-|--------|----------|
-| `WF-01 Manuel İçerik Üretme.json` | Manuel içerik |
-| `WF-02 Kaynaktan İçerik Üretme.json` | RSS + duplicate + AI |
-| `WF-03 Error Handling.json` | Error Trigger + kayıt + Telegram |
+Kullanıcı n8n’den güncel export almalı:
 
-## Sonraya bırakılanlar
+- WF-01, WF-02 (butonlu)
+- WF-03
+- **WF-04** (tam onay/görsel/Buffer hattı)
 
-| Madde | Not |
-|--------|-----|
-| execution_logs insert | Tablo var; PM sonrası |
-| Ağır fallback | Yedek RSS, AI template; PM sonrası |
-| Telegram butonlu onay / Form / Sheet | PM Bölüm 9.2 |
-| İçerik takvimi, rakip, brand voice, görsel brief, reuse | PM Bölüm 15 |
-| Multi-agent | PM Bölüm 16 |
-| Ek screenshot | WF-02 / WF-03 canvas (isteğe bağlı) |
+## Ekran görüntüleri
 
-> Schedule Trigger eklendi. Diğer ekstralar PM görüşmesine bırakıldı.
+Mevcut: erken Faz 2–3 screenshot’ları.  
+Final liste: `docs/ekran-goruntuleri/README.md`

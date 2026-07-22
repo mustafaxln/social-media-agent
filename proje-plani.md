@@ -1,8 +1,11 @@
 # Sosyal Medya İçerik Ajansı — Proje Planı
 
 > **Başlangıç:** 30 Haz 2026  
-> **Bitiş:** 20 Tem 2026  
-> **Durum:** Tamamlandı (ilk versiyon)
+> **Bitiş:** Tem 2026 (onay + görsel + Buffer yayın dahil)  
+> **Durum:** Tamamlandı  
+
+Ana sistem özeti → [`docs/sistem-dokumantasyonu.md`](./docs/sistem-dokumantasyonu.md)  
+Onay/görsel/yayın → [`docs/yol-haritasi-onay-gorsel-yayin.md`](./docs/yol-haritasi-onay-gorsel-yayin.md)
 
 Bu dosya projenin ana planıdır. Her faz tamamlandıkça `[x]` işaretlenir.
 
@@ -21,7 +24,8 @@ Yaptıkça yazdığımız notlar → [`docs/calisma-notlari/`](./docs/calisma-no
 | 3 | Data Table + Telegram bildirimi | | | |
 | 4 | Workflow 2 — Kaynaktan içerik üretme | | | |
 | 5 | Error handling + retry / fallback | | 20 Tem 2026 | |
-| 6 | Final dokümantasyon | | 20 Tem 2026 | |
+| 6 | Final dokümantasyon | | Tem 2026 | |
+| A–D | Telegram onay + görsel + Buffer yayın (WF-04) | | Tem 2026 | |
 
 ---
 
@@ -166,11 +170,12 @@ Detay → `docs/calisma-notlari/faz-5-error-handling.md`
 
 ### Yapılacaklar
 
-- [x] Tüm workflow export'larını kaydet
+- [x] Tüm workflow export'larını kaydet *(WF-04 güncel export kullanıcıda — repoya eklenebilir)*
 - [x] Karşılaşılan problemler ve çözüm notları
 - [x] Öğrenilen kavramlar / bilgiler listesini güncelle
 - [x] Akış şeması güncelle
-- [ ] Ekran görüntülerini toparla *(kısmi — `docs/ekran-goruntuleri/`)*
+- [x] Ana sistem dokümanı → `docs/sistem-dokumantasyonu.md`
+- [ ] Final ekran görüntüleri *(çekim listesi hazır — `docs/ekran-goruntuleri/README.md`; local n8n’den otomatik alınamadı)*
 
 Detay → `docs/calisma-notlari/faz-6-final.md`
 
@@ -180,9 +185,10 @@ Detay → `docs/calisma-notlari/faz-6-final.md`
 - [x] Manuel içerik üretim workflow'u
 - [x] Kaynaktan içerik üretim workflow'u
 - [x] Error handling workflow'u
+- [x] WF-04: 2 kademeli Telegram onay + görsel + Buffer yayın
 - [x] Data Table yapıları (`contents` + `errors`; logs tablosu hazır)
-- [x] Telegram bildirim sistemi
-- [x] En az 2 platform için içerik üretimi
+- [x] Telegram bildirim / onay sistemi
+- [x] En az 2 platform için içerik üretimi + yayın
 - [x] Duplicate kontrolü
 - [x] Retry senaryosu
 - [x] Proje dokümantasyonu + akış şeması
@@ -199,7 +205,8 @@ Detay → `docs/calisma-notlari/faz-6-final.md`
 | 3 — Data Table + Telegram | Tamamlandı | | |
 | 4 — Workflow 2 | Tamamlandı | | |
 | 5 — Error handling | Tamamlandı | 20 Tem 2026 |
-| 6 — Final dokümantasyon | Tamamlandı | 20 Tem 2026 |
+| 6 — Final dokümantasyon | Tamamlandı | Tem 2026 |
+| A–D — Onay / görsel / Buffer (WF-04) | Tamamlandı | Tem 2026 |
 
 ---
 
@@ -207,4 +214,4 @@ Detay → `docs/calisma-notlari/faz-6-final.md`
 
 - **Platform seçimi:** LinkedIn ve Instagram
 - Brand voice, içerik takvimi, multi-agent vb. → [`docs/proje-amaci.md`](./docs/proje-amaci.md#sonradan-eklenebilecek-özellikler)
-- **Sonraki aşama (PM):** Telegram buton onayı + görsel üretimi + LinkedIn/Instagram yayın → [`docs/yol-haritasi-onay-gorsel-yayin.md`](./docs/yol-haritasi-onay-gorsel-yayin.md)
+- **Sonraki aşama (tamamlandı):** Telegram 2 kademeli onay + Cloudinary görsel + Buffer LI/IG → [`docs/yol-haritasi-onay-gorsel-yayin.md`](./docs/yol-haritasi-onay-gorsel-yayin.md) · [`docs/sistem-dokumantasyonu.md`](./docs/sistem-dokumantasyonu.md)

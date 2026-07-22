@@ -4,16 +4,19 @@
 
 ```mermaid
 flowchart TD
-    A[İçerik Kaynağı] --> B[Veri Çekme]
-    B --> C[Duplicate Kontrolü]
-    C --> D[AI Agent ile İçerik Üretimi]
-    D --> E[Data Table Kaydı]
-    E --> F[Telegram'a Taslak Gönderimi]
-    F --> G[Onay Süreci]
-    G --> H[Yayın / Arşiv]
-    D -.->|Hata| E3[WF-03 Error Handling]
+    A[WF-01 Manuel / WF-02 RSS] --> B[Insert waiting_approval]
+    B --> C[Telegram taslak Onayla/Reddet]
+    C --> D{1. Onay}
+    D -->|Reddet| R[rejected]
+    D -->|Onayla| E[Image + Cloudinary]
+    E --> F[Telegram FINAL Yayınla/İptal]
+    F --> G{2. Onay}
+    G -->|İptal| P[preview_rejected]
+    G -->|Yayınla| H[Buffer LI/IG]
+    H --> I[published]
+    A -.->|Hata| E3[WF-03]
     E -.->|Hata| E3
-    F -.->|Hata| E3
+    H -.->|Hata| E3
 ```
 
 ## Workflow 1 — Manuel İçerik
@@ -24,7 +27,7 @@ flowchart TD
     B --> C[AI Agent]
     C --> D[Code / telegram_message]
     D --> E[Data Table]
-    E --> F[Telegram]
+    E --> F[Telegram buton]
 ```
 
 ## Workflow 2 — Kaynaktan İçerik
@@ -38,7 +41,7 @@ flowchart TD
     E --> F[AI Agent]
     F --> G[Code]
     G --> H[Data Table]
-    H --> I[Telegram]
+    H --> I[Telegram buton]
 ```
 
 ## Workflow 3 — Error Handling
@@ -50,13 +53,29 @@ flowchart TD
     C --> D[Telegram HATA]
 ```
 
-## Onay Süreci (İlk Aşama)
+WF-01, WF-02, WF-04 → Error Workflow = WF-03.
+
+## Workflow 4 — Onay + Görsel + Yayın
+
+```mermaid
+flowchart TD
+    A[Telegram Callback] --> B{action}
+    B -->|reject| R[rejected]
+    B -->|cancel| C[preview_rejected]
+    B -->|approve| G[Image + Cloudinary]
+    G --> F[Final Telegram]
+    B -->|publish| P[Buffer LI/IG]
+    P --> S[published]
+```
+
+## 2 Kademeli Onay
 
 ```mermaid
 flowchart LR
-    A[İçerik Üretildi] --> B[Telegram'a Taslak Gönder]
-    B --> C[Manuel Kontrol]
-    C --> D{Onay?}
-    D -->|Evet| E[Status: approved]
-    D -->|Hayır| F[Status: rejected]
+    A[Taslak] --> B[Onayla / Reddet]
+    B -->|Onayla| C[Görsel + Final]
+    B -->|Reddet| D[rejected]
+    C --> E[Yayınla / İptal]
+    E -->|Yayınla| F[published]
+    E -->|İptal| G[preview_rejected]
 ```

@@ -19,7 +19,10 @@ Proje boyunca takıldığımız noktalar. Çözümler → [`cozum-notlari.md`](.
 | 13 | Tem 2026 | 5 | Telegram Text'te `$('Hata Bilgileri')` → Referenced node doesn't exist | Expression node adı uyuşmuyor |
 | 14 | Tem 2026 | 5 | Code satırı yanlışlıkla Telegram Text'e yazılınca | Telegram'a literal `const source = ...` gidiyor |
 | 15 | Tem 2026 | A | Telegram Trigger Active: `bad webhook: An HTTPS URL must be provided` | WF-04 publish edilemiyor |
+| 16 | Tem 2026 | 4+ | ImgBB Internal upload error / limit | Görsel URL kaydı kırılıyor |
+| 17 | Tem 2026 | 4+ | Instagram Buffer: type (post/story/reel) zorunlu | createPost reddediliyor |
+| 18 | Tem 2026 | 4+ | Publish sonrası Update: `$json.content_id` undefined | status published olmuyor |
 
 ## Özet
 
-En çok takıldığımız konular: **n8n item taşıma**, **Duplicate sırası**, **Error Trigger**, **local Telegram webhook (HTTPS)**.
+n8n item taşıma, duplicate sırası, local HTTPS webhook, görsel host, Buffer IG metadata, HTTP sonrası expression referansı.

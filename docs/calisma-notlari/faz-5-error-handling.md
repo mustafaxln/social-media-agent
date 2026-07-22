@@ -35,6 +35,7 @@ Export: `WF-03 Error Handling.json`
 
 - WF-01 Settings → Error Workflow = WF-03
 - WF-02 Settings → Error Workflow = WF-03
+- **WF-04 Settings → Error Workflow = WF-03** (onay/görsel/yayın hattı)
 - WF-03 Active
 
 ## Bu fazda yaşananlar
